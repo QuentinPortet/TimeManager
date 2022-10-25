@@ -2,6 +2,8 @@ defmodule Timemanager.TimeManager.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @mail_regex ~r/@/
+
   schema "users" do
     field :email, :string
     field :username, :string
@@ -14,5 +16,6 @@ defmodule Timemanager.TimeManager.User do
     user
     |> cast(attrs, [:username, :email])
     |> validate_required([:username, :email])
+    |> validate_format(:email, @mail_regex)
   end
 end

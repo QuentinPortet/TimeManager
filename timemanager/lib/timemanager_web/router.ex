@@ -10,6 +10,7 @@ defmodule TimemanagerWeb.Router do
     resources "/users", UserController, except: []
     resources "/clocks", ClockController, except: [:edit]
     resources "/workingtimes", WorkingTimesController, except: [ ]
+
   end
 
   # Enables LiveDashboard only for development
