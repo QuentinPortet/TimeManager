@@ -7,9 +7,20 @@ defmodule TimemanagerWeb.Router do
 
   scope "/api", TimemanagerWeb do
     pipe_through :api
-    resources "/users", UserController, except: []
-    resources "/clocks", ClockController, except: [:edit]
-    resources "/workingtimes", WorkingTimesController, except: [ ]
+    get "/users", UserController, :index
+    get "/users/:id", UserController, :show
+    post "/users", UserController, :create
+    patch "/users/:id", UserController, :update
+    delete "/users/:id", UserController, :delete
+
+    get "/workingtimes/:userID", WorkingTimesController, :range # with ?start=xx & end
+    get "/workingtimes/:userID/:id", WorkingTimesController, :show
+    post "/workingtimes/:userID", WorkingTimesController, :create
+    patch "/workingtimes/:id", WorkingTimesController, :update
+    delete "/workingtimes/:id", WorkingTimesController, :delete
+
+    get "/clocks/:userID", ClockController, :show
+    post "/clocks/:userID", ClockController, :create
 
   end
 

@@ -4,6 +4,8 @@ defmodule TimemanagerWeb.UserController do
   alias Timemanager.TimeManager
   alias Timemanager.TimeManager.User
 
+  require Logger
+
   action_fallback TimemanagerWeb.FallbackController
 
   def index(conn, _params) do
@@ -41,6 +43,12 @@ defmodule TimemanagerWeb.UserController do
     end
   end
 
-
+  def entries(conn, %{"email" => email, "username" => username}) do
+    # render the user specified in _params.email and _params.username
+    # find the user
+    Logger.info "email: #{email}, username: #{username}"
+    user = TimeManager.get_user_by_email_username(email, username)
+    render(conn, "show.json", user: user)
+  end
 
 end

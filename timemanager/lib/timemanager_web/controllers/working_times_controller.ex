@@ -11,8 +11,8 @@ defmodule TimemanagerWeb.WorkingTimesController do
     render(conn, "index.json", workingtimes: workingtimes)
   end
 
-  def create(conn, %{"working_times" => working_times_params}) do
-    with {:ok, %WorkingTimes{} = working_times} <- TimeManager.create_working_times(working_times_params) do
+  def create(conn, %{"userID" => userID}, params) do
+    with {:ok, %WorkingTimes{} = working_times} <- TimeManager.create_working_times(params, userID) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.working_times_path(conn, :show, working_times))
@@ -39,5 +39,10 @@ defmodule TimemanagerWeb.WorkingTimesController do
     with {:ok, %WorkingTimes{}} <- TimeManager.delete_working_times(working_times) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def range(conn, %{"userID" => userID, "start" => start, "end" => ending}) do
+    workingtimes = TimeManager.list_workingtimes(userID, start, ending)
+    render(conn, "index.json", workingtimes: workingtimes)
   end
 end

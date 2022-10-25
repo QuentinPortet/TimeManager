@@ -37,6 +37,15 @@ defmodule Timemanager.TimeManager do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_by_email_username(email, username) do
+    Repo.get_by(User, email: email, username: username)
+  end
+
+  def list_workingtimes(userID, start, ending) do
+    Repo.all(from w in Timemanager.TimeManager.WorkingTimes, where: w.user == ^userID and w.start >= ^start and w.end <= ^ending)
+  end
+
+
   @doc """
   Creates a user.
 
