@@ -43,7 +43,7 @@ defmodule PointageWeb.Router do
     # CLOCKS ROUTES
 
     get("/clocks/:userID", ClockController, :show)
-    post("/clocks", ClockController, :create)
+    post("/clocks/:userID", ClockController, :create)
 
   end
 

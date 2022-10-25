@@ -2,7 +2,7 @@ defmodule Pointage.Accounts do
   @moduledoc """
   The Accounts context.
   """
-
+  require Logger
   import Ecto.Query, warn: false
   alias Pointage.Repo
 
@@ -150,6 +150,7 @@ defmodule Pointage.Accounts do
 
   """
   def create_clock(attrs \\ %{}) do
+    Logger.info(attrs)
     %Clock{}
     |> Clock.changeset(attrs)
     |> Repo.insert()
