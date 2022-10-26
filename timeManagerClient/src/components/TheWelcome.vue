@@ -25,7 +25,7 @@ import SupportIcon from "./icons/IconSupport.vue";
     <template #icon>
       <ToolingIcon />
     </template>
-    <template #heading>Tooling</template>
+    <template #heading>Tooling Toto</template>
 
     This project is served and bundled with
     <a
