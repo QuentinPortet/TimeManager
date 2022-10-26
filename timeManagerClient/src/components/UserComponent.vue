@@ -1,7 +1,11 @@
 <script>
 import axios from "axios";
+import FancyCard from "./FancyCard.vue";
 
 export default {
+  components: {
+    FancyCard,
+  },
   data() {
     return {
       username: "Toto",
@@ -51,7 +55,17 @@ export default {
 </script>
 
 <template>
-  <div class="card">
+  <FancyCard>
+    <template #header> Users panel </template>
+    <template #mainpart>
+      <div class="content">
+        You are currently logged in as <strong>{{ username }} </strong>.
+        <br />
+        Your registered email address is <strong>{{ email }} </strong>.
+      </div>
+    </template>
+  </FancyCard>
+  <!-- <div class="card">
     <div class="fancy-stripe">-</div>
     <div class="header">Users panel</div>
     <div class="content">
@@ -60,5 +74,5 @@ export default {
       Your registered email address is <strong>{{ email }} </strong>.
     </div>
     <button @click="testitest"></button>
-  </div>
+  </div> -->
 </template>
