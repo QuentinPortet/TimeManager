@@ -239,8 +239,8 @@ defmodule Api.Accounts do
   """
   def get_workingtime!(id), do: Repo.get!(Workingtime, id)
 
-  def get_workingtimes_by_user(userID) do
-    Repo.all(from(u in Workingtime, where: u.user_id == ^userID))
+  def get_workingtimes_by_params(userID, start, stop) do
+    Repo.all(from(u in Workingtime, where: u.user_id == ^userID and u.start == ^start and u.end == ^stop))
   end
 
   @doc """
