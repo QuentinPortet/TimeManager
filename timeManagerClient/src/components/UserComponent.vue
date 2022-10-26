@@ -17,6 +17,20 @@ export default {
       .then((response) => (this.info = response));
     console.log("reponse: ", this.info);
   },
+  methods: {
+    createUser: function () {
+      // POST
+    },
+    updateUser: function () {
+      // PATCH / PUT
+    },
+    getUser: function () {
+      // GET
+    },
+    deleteUser: function () {
+      // DELETE
+    },
+  },
 };
 </script>
 

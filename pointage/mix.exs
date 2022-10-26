@@ -52,6 +52,14 @@ defmodule Pointage.MixProject do
     ]
   end
 
+  defp deps do
+    [
+      {:plug, "~> 1.0"},
+      {:corsica, "~> 1.0"},
+      {:cors, "~> 0.1.1"}
+    ]
+  end
+
   # Aliases are shortcuts or tasks specific to the current project.
   # For example, to install project dependencies and perform other setup tasks, run:
   #
