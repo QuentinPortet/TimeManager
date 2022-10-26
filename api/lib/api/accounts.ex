@@ -239,6 +239,10 @@ defmodule Api.Accounts do
   """
   def get_workingtime!(id), do: Repo.get!(Workingtime, id)
 
+  def get_workingtimes_by_user(userID) do
+    Repo.all(from(u in Workingtime, where: u.user_id == ^userID))
+  end
+
   @doc """
   Creates a workingtime.
 
