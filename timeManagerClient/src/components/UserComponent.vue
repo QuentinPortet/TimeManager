@@ -9,26 +9,42 @@ export default {
       info: null,
     };
   },
-  mounted() {
-    axios
-      .get("http://localhost:4000/api/users/1", {
-        headers: { "Access-Control-Allow-Origin": "*" },
-      })
+  async mounted() {
+    this.info = await axios
+      .get("http://localhost:4000/api/users/1")
       .then((response) => (this.info = response));
-    console.log("reponse: ", this.info);
   },
   methods: {
+    testitest() {
+      console.log(this.info);
+    },
     createUser: function () {
-      // POST
+      axios
+        .post("http://localhost:4000/api/users", {
+          headers: { "Access-Control-Allow-Origin": "*" },
+        })
+        .then((response) => (this.info = response));
     },
     updateUser: function () {
-      // PATCH / PUT
+      axios
+        .put("http://localhost:4000/api/users/1", {
+          headers: { "Access-Control-Allow-Origin": "*" },
+        })
+        .then((response) => (this.info = response));
     },
     getUser: function () {
-      // GET
+      axios
+        .get("http://localhost:4000/api/users/1", {
+          headers: { "Access-Control-Allow-Origin": "*" },
+        })
+        .then((response) => (this.info = response));
     },
     deleteUser: function () {
-      // DELETE
+      axios
+        .delete("http://localhost:4000/api/users/1", {
+          headers: { "Access-Control-Allow-Origin": "*" },
+        })
+        .then((response) => (this.info = response));
     },
   },
 };
@@ -43,5 +59,6 @@ export default {
     <div class="content">
       {{ email }}
     </div>
+    <button @click="testitest"></button>
   </div>
 </template>
