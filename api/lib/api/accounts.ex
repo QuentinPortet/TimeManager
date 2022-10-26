@@ -139,7 +139,9 @@ defmodule Api.Accounts do
   """
   def get_clock!(id), do: Repo.get!(Clock, id)
 
-  def get_clocks_by_user(userID), do: Repo.get_by!(Clock, user_id: userID)
+  def get_clocks_by_user(userID) do
+    Repo.all(from(u in Clock, where: u.user_id == ^userID))
+  end
 
   @doc """
   Creates a clock.
