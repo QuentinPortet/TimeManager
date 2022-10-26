@@ -65,6 +65,7 @@ body {
 }
 
 .card {
+  margin: 7%;
   background: var(--color-background-soft);
   border-radius: 8px;
   box-shadow: 4px 4px 6px rgb(17, 17, 17);
@@ -90,4 +91,26 @@ body {
 .card .content {
   margin: 16px;
   width: 100%;
+}
+
+.card button{
+  margin-top: 5%;
+  padding: 10px;
+  background-color: #2c3e50;
+  border-radius: 5px;
+  border-color: transparent;
+}
+
+.card .content .center{
+  text-align: center;
+}
+
+.card button:hover{
+  background-color: #1a2633;
+  cursor: pointer;
+}
+
+.card .important{
+  font-weight: 900;
+  color: green;
 }
