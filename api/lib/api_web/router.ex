@@ -20,10 +20,33 @@ defmodule ApiWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ApiWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", ApiWeb do
+    pipe_through :api
+
+    # USERS ROUTES
+
+    resources "/users", UserController, except: [:new, :edit], param: "userID"
+
+    # get("/users", UserController, :showBy)
+    # get("/users/:userID", UserController, :show)
+    # post("/users", UserController, :create)
+    # put("/users/:userID", UserController, :update)
+    # delete("/users/:userID", UserController, :delete)
+
+   # WORKINGTIMES ROUTES
+
+   get("/workingtimes/:userID", WorkingtimeController, :showByUser)
+   get("/workingtimes/:userID/:id", WorkingtimeController, :show)
+   post("/workingtimes/:userID", WorkingtimeController, :create)
+   put("/workingtimes/:id", WorkingtimeController, :update)
+   delete("/workingtimes/:id", WorkingtimeController, :delete)
+
+   # CLOCKS ROUTES
+
+   get("/clocks/:userID", ClockController, :show)
+   post("/clocks/:userID", ClockController, :create)
+
+  end
 
   # Enables LiveDashboard only for development
   #

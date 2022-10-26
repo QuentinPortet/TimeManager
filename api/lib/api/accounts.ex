@@ -37,6 +37,12 @@ defmodule Api.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_by(email, username), do: Repo.get_by!(User, email: email, username: username)
+
+  def get_users_by_mail_and_username(email, username) do
+    Repo.all(from(u in User, where: u.email == ^email and u.username == ^username))
+  end
+
   @doc """
   Creates a user.
 
@@ -132,6 +138,8 @@ defmodule Api.Accounts do
 
   """
   def get_clock!(id), do: Repo.get!(Clock, id)
+
+  def get_clocks_by_user(userID), do: Repo.get_by!(Clock, user_id: userID)
 
   @doc """
   Creates a clock.
