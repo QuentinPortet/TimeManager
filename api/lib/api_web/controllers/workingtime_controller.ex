@@ -40,10 +40,10 @@ defmodule ApiWeb.WorkingtimeController do
     render(conn, "index.json", workingtimes: workingtimes)
   end
 
-  def update(conn, %{"id" => id, "workingtime" => workingtime_params}) do
+  def update(conn, %{"id" => id, "start" => start, "end" => stop}) do
     workingtime = Accounts.get_workingtime!(id)
 
-    with {:ok, %Workingtime{} = workingtime} <- Accounts.update_workingtime(workingtime, workingtime_params) do
+    with {:ok, %Workingtime{} = workingtime} <- Accounts.update_workingtime(workingtime, %{start: start, end: stop}) do
       render(conn, "show.json", workingtime: workingtime)
     end
   end

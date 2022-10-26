@@ -41,11 +41,6 @@ defmodule ApiWeb.ClockController do
     render(conn, "index.json", clocks: clocks)
   end
 
-  def showByUser(conn, %{"userID" => userID}) do
-    clock = Accounts.get_clocks_by_user(userID)
-    render(conn, "show.json", clock: clock)
-  end
-
   def update(conn, %{"id" => id, "clock" => clock_params}) do
     clock = Accounts.get_clock!(id)
 
