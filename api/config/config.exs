@@ -7,6 +7,11 @@
 # General application configuration
 import Config
 
+config :cors_plug,
+        origin: "*",
+        max_age: 86400
+        methods: ["GET", "POST", "PUT", "DELETE"]
+
 config :api,
   ecto_repos: [Api.Repo]
 
