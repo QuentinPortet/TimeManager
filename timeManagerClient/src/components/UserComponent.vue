@@ -4,8 +4,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      username: "rien",
-      email: "rien",
+      username: "Toto",
+      email: "toto@epitech.eu",
       info: null,
     };
   },
@@ -53,11 +53,11 @@ export default {
 <template>
   <div class="card">
     <div class="fancy-stripe">-</div>
-    <div class="header">
-      {{ username }}
-    </div>
+    <div class="header">Users panel</div>
     <div class="content">
-      {{ email }}
+      You are currently logged in as <strong>{{ username }} </strong>.
+      <br />
+      Your registered email address is <strong>{{ email }} </strong>.
     </div>
     <button @click="testitest"></button>
   </div>
