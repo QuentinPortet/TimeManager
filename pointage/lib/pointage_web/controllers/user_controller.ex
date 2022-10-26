@@ -30,15 +30,16 @@ defmodule PointageWeb.UserController do
     render(conn, "show.json", user: user)
   end
 
-  def update(conn, %{"id" => id, "user" => user_params}) do
+  @spec update(any, %{optional(:__struct__) => none, optional(atom | binary) => any}) :: any
+  def update(conn, %{"email" => email, "username" => username, "userID" => id}) do
     user = Accounts.get_user!(id)
 
-    with {:ok, %User{} = user} <- Accounts.update_user(user, user_params) do
+    with {:ok, %User{} = user} <- Accounts.update_user(user, %{email: email, username: username}) do
       render(conn, "show.json", user: user)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"userID" => id}) do
     user = Accounts.get_user!(id)
 
     with {:ok, %User{}} <- Accounts.delete_user(user) do

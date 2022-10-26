@@ -2,7 +2,6 @@ defmodule Pointage.Accounts do
   @moduledoc """
   The Accounts context.
   """
-  require Logger
   import Ecto.Query, warn: false
   alias Pointage.Repo
 
@@ -135,7 +134,7 @@ defmodule Pointage.Accounts do
   """
   def get_clock!(id), do: Repo.get!(Clock, id)
 
-  def get_clocks_by_user(userID), do: Repo.get_by!(Clock, userID: userID)
+  def get_clocks_by_user(userID), do: Repo.get_by!(Clock, user: userID)
 
   @doc """
   Creates a clock.
@@ -150,7 +149,6 @@ defmodule Pointage.Accounts do
 
   """
   def create_clock(attrs \\ %{}) do
-    Logger.info(attrs)
     %Clock{}
     |> Clock.changeset(attrs)
     |> Repo.insert()

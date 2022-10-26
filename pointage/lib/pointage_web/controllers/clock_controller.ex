@@ -1,8 +1,6 @@
 defmodule PointageWeb.ClockController do
   use PointageWeb, :controller
-
   require Logger
-
   alias Pointage.Accounts
   alias Pointage.Accounts.Clock
 
@@ -13,9 +11,8 @@ defmodule PointageWeb.ClockController do
     render(conn, "index.json", clocks: clocks)
   end
 
-  def create(conn, %{"time" => time, "status" => status, "user" => userID} = params) do
-    Logger.info(params)
-    with {:ok, %Clock{} = clock} <- Accounts.create_clock(params) do
+  def create(conn, %{"time" => time, "status" => status, "userID" => user}) do
+    with {:ok, %Clock{} = clock} <- Accounts.create_clock(%{time: time, status: status, user: user}) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.clock_path(conn, :show, clock))
@@ -24,8 +21,8 @@ defmodule PointageWeb.ClockController do
   end
 
   def show(conn, %{"userID" => id}) do
-    clock = Accounts.get_clock!(id)
-    render(conn, "show.json", clock: clock)
+    clocks = Accounts.get_clocks_by_user(id)
+    render(conn, "index.json", clocks: clocks)
   end
 
   def showByUser(conn, %{"userID" => userID}) do
