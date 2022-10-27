@@ -10,6 +10,7 @@ defineProps({
 <script>
 import axios from "axios";
 import FancyCard from "./FancyCard.vue";
+import FancyButton from "./FancyButton.vue";
 export default {
   name: "ClockManager",
 
