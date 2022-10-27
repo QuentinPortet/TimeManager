@@ -7,7 +7,6 @@ defineProps({
 });
 </script>
 
-
 <script>
 import axios from "axios";
 import FancyCard from "./FancyCard.vue";
@@ -17,12 +16,11 @@ export default {
     methods: {
         cloking: function () {
             axios.post('http://localhost:4000/api/workingtimes/'+this.userid, {
-                startDateTime: this.startDateTime,
-                endDateTime: Date.now(),
-                user: this.user
+                start: this.startDateTime,
+                end: Date.now(),
             }, {header:  'Access-Control-Allow-Origin: *'})
                 .then(response => {
-                    this.endDateTime = Date.now()
+                    this.endDateTime = Date.now();
                 })
                 .catch(error => {
                     console.log(error);
@@ -42,8 +40,8 @@ export default {
         axios.get("http://localhost:4000/api/workingtimes/"+this.userid)
             .then(response => {
                 console.log(response)
-                this.startDateTime = response.data.data[response.data.data.length-1].start
-                this.endDateTime = response.data.data[0].end
+                this.startDateTime = response.data.data[response.data.data.length-1].start;
+                this.endDateTime = response.data.data[0].end;
             })
             .catch(error => {
                 console.log(error);
@@ -54,7 +52,6 @@ export default {
 };
 
 </script>
-
 
 <template>
     <FancyCard>
