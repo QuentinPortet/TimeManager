@@ -73,7 +73,7 @@ body {
   padding-bottom: 16px;
   min-width: 300px;
   max-width: 45vw;
-  margin: 16px;
+  margin: 0px 0px 16px 0px;
 }
 
 .card .fancy-stripe {
@@ -93,12 +93,6 @@ body {
 .card .content {
   margin: 16px;
   width: 100%;
-}
-
-.bar {
-  background: var(--color-background-soft);
-  width: 100vw;
-  height: 90px;
 }
 
 .card button{

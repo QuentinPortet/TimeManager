@@ -1,17 +1,18 @@
 <script setup>
 import UserComponent from "./components/UserComponent.vue";
-import TopBar from "./components/TopBar.vue";
+import SideBar from "./components/SideBar.vue";
 import ClockManager from "./components/ClockManager.vue";
 </script>
 
 <template>
-  <header>
-    <TopBar></TopBar>
+  <header></header>
+  <div style="display: flex">
+    <SideBar></SideBar>
     <div style="margin: 16px">
       <UserComponent></UserComponent>
       <ClockManager></ClockManager>
     </div>
-  </header>
+  </div>
 </template>
 
 <style scoped></style>

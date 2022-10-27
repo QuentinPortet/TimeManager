@@ -1,14 +1,16 @@
 <script>
 import axios from "axios";
 import FancyCard from "./FancyCard.vue";
+import FancyButton from "./FancyButton.vue";
 
 export default {
   components: {
     FancyCard,
+    FancyButton,
   },
   data() {
     return {
-      username: "Toto",
+      username: "",
       email: "toto@epitech.eu",
       info: null,
     };
@@ -16,7 +18,9 @@ export default {
   async mounted() {
     this.info = await axios
       .get("http://localhost:4000/api/users/1")
-      .then((response) => (this.info = response));
+      .then((response) => {
+        return response;
+      });
   },
   methods: {
     testitest() {
@@ -63,16 +67,16 @@ export default {
         <br />
         Your registered email address is <strong>{{ email }} </strong>.
       </div>
+      <div style="display: flex">
+        <FancyButton @click="testitest" style="margin-right: 16px">
+          <template #text> Ajouter un utilisateur </template>
+        </FancyButton>
+        <FancyButton
+          color="linear-gradient(323deg, rgba(107,0,0,1) 0%, rgba(154,17,0,1) 100%);"
+        >
+          <template #text> Supprimer un utilisateur </template>
+        </FancyButton>
+      </div>
     </template>
   </FancyCard>
-  <!-- <div class="card">
-    <div class="fancy-stripe">-</div>
-    <div class="header">Users panel</div>
-    <div class="content">
-      You are currently logged in as <strong>{{ username }} </strong>.
-      <br />
-      Your registered email address is <strong>{{ email }} </strong>.
-    </div>
-    <button @click="testitest"></button>
-  </div> -->
 </template>
