@@ -11,7 +11,7 @@ export default {
 
 <template>
   <button class="fancy-button" :style="color ? 'background: ' + color : ''">
-    <slot name="text">Oops</slot>
+    <slot>Oops</slot>
   </button>
 </template>
 
@@ -33,6 +33,6 @@ export default {
   padding-left: 6px !important;
   padding-right: 6px !important;
   font-weight: 600;
-  box-shadow: 4px 4px 6px rgb(23, 23, 23);
+  box-shadow: 4px 4px 6px #11111166;
 }
 </style>

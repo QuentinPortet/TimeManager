@@ -5,8 +5,8 @@ defmodule Api.Accounts.User do
   schema "users" do
     field :email, :string
     field :username, :string
-    has_many :clocks, Api.Accounts.Clock
-    has_many :workingtimes, Api.Accounts.Workingtime
+    has_many :clocks, Api.Accounts.Clock, on_delete: :delete_all
+    has_many :workingtimes, Api.Accounts.Workingtime, on_delete: :delete_all
 
     timestamps()
   end

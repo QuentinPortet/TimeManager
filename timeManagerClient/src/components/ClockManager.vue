@@ -60,22 +60,28 @@ export default {
 </script>
 
 <template>
-    <FancyCard>
-        <template #header>Clock Manager</template>
-        <template #mainpart>
-            <div>
-                <div>
-                    First clock: <span class="important">{{ this.time }}</span>
-                </div>
-                <div>
-                    Clock is running : <span class="important"> {{ this.status ? 'yes' : 'no' }} </span>
-                </div>
-                <div class="center">
-                    <FancyButton @click="cloking"> <template #text>Clock</template></FancyButton>
-                </div>
-            </div>
-        </template>
-    </FancyCard>
+  <FancyCard>
+    <template #header>Clock Manager</template>
+    <template #mainpart>
+      <div>
+        <div>
+          First clock:
+          <span class="important">{{
+            this.startDateTime == "" ? "none" : this.startDateTime
+          }}</span>
+        </div>
+        <div>
+          clock is running :
+          <span class="important">
+            {{ this.endDateTime == "" ? "yes" : "no" }}
+          </span>
+        </div>
+        <div class="center">
+          <FancyButton @click="cloking">Clock</FancyButton>
+        </div>
+      </div>
+    </template>
+  </FancyCard>
 </template>
 
 <style scoped>

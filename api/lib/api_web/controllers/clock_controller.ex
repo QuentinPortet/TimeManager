@@ -12,7 +12,7 @@ defmodule ApiWeb.ClockController do
     if false === status do
       clock = Accounts.get_latest_clocksin_by_user(user_id)
       # IO.inspect(item: List.first(clock).time, label: "PROUT" )
-      Accounts.create_workingtime(%{start: time, end: List.first(clock).time, user_id:  user_id})
+      Accounts.create_workingtime(%{end: time, start: List.first(clock).time, user_id:  user_id})
     end
     with {:ok, %Clock{} = clock} <- Accounts.create_clock(%{time: time, status: status, user_id: user}) do
       conn
