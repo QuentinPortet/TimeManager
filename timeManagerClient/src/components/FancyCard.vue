@@ -1,8 +1,17 @@
-<script></script>
+<script>
+export default {
+  props: {
+    stripe: {
+      type: Boolean,
+      default: true,
+    },
+  },
+};
+</script>
 
 <template>
   <div class="card">
-    <div class="fancy-stripe">-</div>
+    <div v-if="stripe === true" class="fancy-stripe"></div>
     <div class="header">
       <slot name="header">Oops, something happened</slot>
     </div>
@@ -18,8 +27,7 @@
   background: var(--color-background-soft);
   border-radius: 8px;
   box-shadow: 4px 4px 6px #11111166;
-  padding-bottom: 16px;
-  min-width: 300px;
+  padding-bottom: 8px;
   max-width: 45vw;
   margin: 0px 0px 16px 0px;
 }
@@ -33,16 +41,17 @@
     rgba(13, 255, 134, 1) 100%
   );
   width: 100%;
+  height: 16px;
 }
 
 .card .header {
-  margin: 16px;
+  margin: 8px;
   font-weight: 900;
   font-size: 20px;
 }
 
 .card .content {
-  margin: 16px;
+  margin: 8px;
 }
 
 .card button {

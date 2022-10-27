@@ -8,9 +8,11 @@ import WorkingTimes from "./components/WorkingTimes.vue";
 <template>
   <header></header>
   <div style="display: flex">
-    <SideBar><UserComponent></UserComponent></SideBar>
+    <SideBar>
+      <UserComponent></UserComponent>
+      <ClockManager userid="1" style="margin: 16px"></ClockManager>
+    </SideBar>
     <div style="margin: 16px">
-      <ClockManager userid="1"></ClockManager>
       <WorkingTimes></WorkingTimes>
     </div>
   </div>

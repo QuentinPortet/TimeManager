@@ -1,23 +1,34 @@
 <script>
 import axios from "axios";
 import FancyButton from "./FancyButton.vue";
+import FancyCard from "./FancyCard.vue";
 
 export default {
   components: {
     FancyButton,
+    FancyCard,
   },
   data() {
     return {
       username: "",
       email: "toto@epitech.eu",
       userId: 0,
+      userList: [],
       info: null,
     };
   },
   mounted() {
     this.getUser();
+    this.getAllUsers();
+    this.userList.reverse();
   },
   methods: {
+    generateFakeWorkingTime() {
+      const days = Math.floor(Math.random() * 99);
+      const hours = Math.floor(Math.random() * 23);
+
+      return days.toString() + "d, " + hours.toString() + "h";
+    },
     createUser: function () {
       axios
         .post("http://localhost:4000/api/users", {
@@ -37,16 +48,21 @@ export default {
       this.$toast.show(`Profil modifié`);
     },
     getUser: function () {
-      axios.get("http://localhost:4000/api/users/3").then((response) => {
+      axios.get("http://localhost:4000/api/users/5").then((response) => {
         this.username = response.data.data.username;
         this.email = response.data.data.email;
         this.userId = response.data.data.id;
       });
     },
+    getAllUsers: function () {
+      axios.get("http://localhost:4000/api/users").then((response) => {
+        this.userList = response.data.data;
+        console.log("list", this.userList);
+      });
+    },
     deleteUser: function () {
-      console.log(this.userId);
       axios
-        .delete("http://localhost:4000/api/users/" + this.userId)
+        .delete("http://localhost:4000/api/users/" + "4")
         .then((response) => (this.info = response));
       this.$toast.show(`Profil supprimé`);
     },
@@ -78,4 +94,33 @@ export default {
       Ajouter un nouvel utilisateur
     </FancyButton>
   </div>
+  <div
+    class="hidden-scrollbar"
+    style="padding: 16px; max-height: 36vh; overflow: scroll"
+  >
+    <div v-for="user of userList" v-bind:key="user.id">
+      <FancyCard stripe="false">
+        <template #header>{{ user.username }}</template>
+        <template #mainpart>
+          <div style="display: flex">
+            <div style="width: 45%">
+              {{ user.email }}
+            </div>
+            <div>Total worktime: {{ generateFakeWorkingTime() }}</div>
+          </div>
+        </template>
+      </FancyCard>
+    </div>
+  </div>
 </template>
+
+<style>
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hidden-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+</style>
