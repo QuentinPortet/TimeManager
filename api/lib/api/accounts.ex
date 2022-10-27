@@ -143,9 +143,9 @@ defmodule Api.Accounts do
     Repo.all(from(u in Clock, where: u.user_id == ^userID))
   end
 
-  def get_latest_clock_by_user(userID) do
-    # Repo.all(from(u in Clock, where: u.user_id == ^userID and u.status == true, order_by: [desc: :time]))
-    Repo.get_by(Clock, [user_id: userID], order_by: :time)
+  def get_latest_clocksin_by_user(userID) do
+    Repo.all(from(u in Clock, where: u.user_id == ^userID and u.status == true, order_by: [desc: u.time]))
+    # Repo.get_by(Clock, [user_id: userID], order_by: :time)
   end
 
   @doc """
