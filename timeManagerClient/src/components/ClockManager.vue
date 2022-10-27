@@ -13,7 +13,10 @@ import FancyCard from "./FancyCard.vue";
 import FancyButton from "./FancyButton.vue";
 export default {
   name: "ClockManager",
-
+  components: {
+    FancyCard,
+    FancyButton,
+  },
   methods: {
     cloking: function () {
       axios
@@ -78,7 +81,7 @@ export default {
           </span>
         </div>
         <div class="center">
-          <button @click="cloking">Clock</button>
+          <FancyButton @click="cloking">Clock</FancyButton>
         </div>
       </div>
     </template>

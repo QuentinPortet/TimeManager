@@ -1,53 +1,54 @@
 <script>
 import axios from "axios";
-import FancyCard from "./FancyCard.vue";
 import FancyButton from "./FancyButton.vue";
 
 export default {
   components: {
-    FancyCard,
     FancyButton,
   },
   data() {
     return {
       username: "",
       email: "toto@epitech.eu",
+      userId: 0,
+      info: null,
     };
   },
   mounted() {
-    axios.get("http://localhost:4000/api/users/1").then((response) => {
-      this.username = response.data.data.username;
-      this.email = response.data.data.email;
-    });
+    this.getUser();
   },
   methods: {
     createUser: function () {
       axios
         .post("http://localhost:4000/api/users", {
-          headers: { "Access-Control-Allow-Origin": "*" },
+          username: "Titi",
+          email: "titi@epitech.eu",
         })
         .then((response) => (this.info = response));
+      this.$toast.show(`Utilisateur créé`);
     },
     updateUser: function () {
       axios
         .put("http://localhost:4000/api/users/1", {
-          headers: { "Access-Control-Allow-Origin": "*" },
+          username: "Tutu",
+          email: "tutu@modified.eu",
         })
         .then((response) => (this.info = response));
+      this.$toast.show(`Profil modifié`);
     },
     getUser: function () {
-      axios
-        .get("http://localhost:4000/api/users/1", {
-          headers: { "Access-Control-Allow-Origin": "*" },
-        })
-        .then((response) => (this.info = response));
+      axios.get("http://localhost:4000/api/users/3").then((response) => {
+        this.username = response.data.data.username;
+        this.email = response.data.data.email;
+        this.userId = response.data.data.id;
+      });
     },
     deleteUser: function () {
+      console.log(this.userId);
       axios
-        .delete("http://localhost:4000/api/users/1", {
-          headers: { "Access-Control-Allow-Origin": "*" },
-        })
+        .delete("http://localhost:4000/api/users/" + this.userId)
         .then((response) => (this.info = response));
+      this.$toast.show(`Profil supprimé`);
     },
   },
 };
@@ -60,14 +61,21 @@ export default {
     <br />
     Your registered email address is <strong>{{ email }} </strong>.
   </div>
-  <div style="display: flex; justify-content: space-between; margin: 16px">
-    <FancyButton>
-      <template #text> Modifier mon profil </template>
-    </FancyButton>
+  <div style="display: flex; justify-content: space-around; margin: 16px">
+    <FancyButton @click="updateUser"> Modifier mon profil </FancyButton>
     <FancyButton
+      @click="deleteUser"
       color="linear-gradient(323deg, rgba(107,0,0,1) 0%, rgba(154,17,0,1) 100%);"
     >
-      <template #text> Supprimer mon profil </template>
+      Supprimer mon profil
+    </FancyButton>
+  </div>
+  <div style="display: flex; justify-content: space-around; margin: 16px">
+    <FancyButton
+      @click="createUser"
+      color="linear-gradient(323deg, rgba(0,170,119,1) 0%, rgba(0,156,154,1) 100%);"
+    >
+      Ajouter un nouvel utilisateur
     </FancyButton>
   </div>
 </template>
