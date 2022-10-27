@@ -16,12 +16,11 @@ export default {
 
     methods: {
         cloking: function () {
-            console.log("clocked");
-            axios.post('http://localhost:4000/api/workingtimes', {
+            axios.post('http://localhost:4000/api/workingtimes/'+this.userid, {
                 startDateTime: this.startDateTime,
                 endDateTime: Date.now(),
                 user: this.user
-            })
+            }, {header:  'Access-Control-Allow-Origin: *'})
                 .then(response => {
                     this.endDateTime = Date.now()
                 })
@@ -40,16 +39,15 @@ export default {
         };
     },
     mounted() {
-        axios.get("http://localhost:4000/api/workingtimes/2")
+        axios.get("http://localhost:4000/api/workingtimes/"+this.userid)
             .then(response => {
-                this.startDateTime = response.data.data[0].end
+                console.log(response)
+                this.startDateTime = response.data.data[response.data.data.length-1].start
                 this.endDateTime = response.data.data[0].end
             })
             .catch(error => {
                 console.log(error);
             });
-
-
     },
     beforeUnmount() {
     },
