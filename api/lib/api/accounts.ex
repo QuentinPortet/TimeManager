@@ -143,6 +143,11 @@ defmodule Api.Accounts do
     Repo.all(from(u in Clock, where: u.user_id == ^userID))
   end
 
+  def get_latest_clocksin_by_user(userID) do
+    Repo.all(from(u in Clock, where: u.user_id == ^userID and u.status == true, order_by: [desc: u.time]))
+    # Repo.get_by(Clock, [user_id: userID], order_by: :time)
+  end
+
   @doc """
   Creates a clock.
 
@@ -239,8 +244,13 @@ defmodule Api.Accounts do
   """
   def get_workingtime!(id), do: Repo.get!(Workingtime, id)
 
+  def get_workingtime_by_user(id, user_id) do
+    # Repo.all(from(u in Workingtime, where: u.id == ^id and u.user_id == ^user_id))
+    Repo.get_by!(Workingtime, %{id: id, user_id: user_id})
+  end
+
   def get_workingtimes_by_params(userID, start, stop) do
-    Repo.all(from(u in Workingtime, where: u.user_id == ^userID and u.start == ^start and u.end == ^stop))
+    Repo.all(from(u in Workingtime, where: u.user_id == ^userID and u.start >= ^start and u.end <= ^stop))
   end
 
   @doc """

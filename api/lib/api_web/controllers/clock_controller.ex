@@ -1,7 +1,6 @@
 defmodule ApiWeb.ClockController do
   use ApiWeb, :controller
 
-  require Logger
   alias Api.Accounts
   alias Api.Accounts.Clock
 
@@ -14,6 +13,12 @@ defmodule ApiWeb.ClockController do
 
   def create(conn, %{"time" => time, "status" => status, "userID" => user_id}) do
     user = String.to_integer(user_id)
+    if false === status do
+      clock = Accounts.get_latest_clocksin_by_user(user_id)
+      # IO.inspect(item: List.first(clock).time, label: "PROUT" )
+      Accounts.create_workingtime(%{start: time, end: List.first(clock).time, user_id:  user_id})
+    end
+
     with {:ok, %Clock{} = clock} <- Accounts.create_clock(%{time: time, status: status, user_id: user}) do
       conn
       |> put_status(:created)
