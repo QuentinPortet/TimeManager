@@ -4,7 +4,7 @@ defmodule Api.Accounts.Clock do
 
   schema "clocks" do
     field :status, :boolean, default: false
-    field :time, :naive_datetime
+    field :time, :utc_datetime
     belongs_to :user, Api.Accounts.User
 
     timestamps()
