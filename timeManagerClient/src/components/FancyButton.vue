@@ -22,7 +22,6 @@ export default {
     rgb(132, 156, 0) 0%,
     rgb(101, 145, 0) 100%
   );
-  max-width: 45%;
   min-width: 150px;
   height: 32px;
   border-radius: 8px;
@@ -34,5 +33,6 @@ export default {
   padding-left: 6px !important;
   padding-right: 6px !important;
   font-weight: 600;
+  box-shadow: 4px 4px 6px rgb(23, 23, 23);
 }
 </style>

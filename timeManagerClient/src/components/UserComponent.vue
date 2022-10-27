@@ -12,20 +12,15 @@ export default {
     return {
       username: "",
       email: "toto@epitech.eu",
-      info: null,
     };
   },
-  async mounted() {
-    this.info = await axios
-      .get("http://localhost:4000/api/users/1")
-      .then((response) => {
-        return response;
-      });
+  mounted() {
+    axios.get("http://localhost:4000/api/users/1").then((response) => {
+      this.username = response.data.data.username;
+      this.email = response.data.data.email;
+    });
   },
   methods: {
-    testitest() {
-      console.log(this.info);
-    },
     createUser: function () {
       axios
         .post("http://localhost:4000/api/users", {
@@ -59,24 +54,20 @@ export default {
 </script>
 
 <template>
-  <FancyCard>
-    <template #header> Users panel </template>
-    <template #mainpart>
-      <div class="content">
-        You are currently logged in as <strong>{{ username }} </strong>.
-        <br />
-        Your registered email address is <strong>{{ email }} </strong>.
-      </div>
-      <div style="display: flex">
-        <FancyButton @click="testitest" style="margin-right: 16px">
-          <template #text> Ajouter un utilisateur </template>
-        </FancyButton>
-        <FancyButton
-          color="linear-gradient(323deg, rgba(107,0,0,1) 0%, rgba(154,17,0,1) 100%);"
-        >
-          <template #text> Supprimer un utilisateur </template>
-        </FancyButton>
-      </div>
-    </template>
-  </FancyCard>
+  <div class="title">Users panel</div>
+  <div class="content" style="margin: 16px">
+    You are currently logged in as <strong>{{ username }} </strong>.
+    <br />
+    Your registered email address is <strong>{{ email }} </strong>.
+  </div>
+  <div style="display: flex; justify-content: space-between; margin: 16px">
+    <FancyButton>
+      <template #text> Modifier mon profil </template>
+    </FancyButton>
+    <FancyButton
+      color="linear-gradient(323deg, rgba(107,0,0,1) 0%, rgba(154,17,0,1) 100%);"
+    >
+      <template #text> Supprimer mon profil </template>
+    </FancyButton>
+  </div>
 </template>

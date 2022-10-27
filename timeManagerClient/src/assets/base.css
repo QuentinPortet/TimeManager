@@ -87,12 +87,10 @@ body {
   margin: 16px;
   font-weight: 900;
   font-size: 20px;
-  width: 100%;
 }
 
 .card .content {
   margin: 16px;
-  width: 100%;
 }
 
 .card button{
@@ -107,12 +105,13 @@ body {
   text-align: center;
 }
 
-.card button:hover{
-  background-color: #1a2633;
-  cursor: pointer;
-}
-
 .card .important{
   font-weight: 900;
   color: green;
+}
+
+.title {
+  margin: 16px;
+  font-weight: 900;
+  font-size: 20px;
 }
