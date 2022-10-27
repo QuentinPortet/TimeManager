@@ -36,16 +36,18 @@ defmodule ApiWeb.Router do
 
    # WORKINGTIMES ROUTES
 
-   get("/workingtimes/:userID", WorkingtimeController, :showByUser)
-   get("/workingtimes/:userID/:id", WorkingtimeController, :show)
-   post("/workingtimes/:userID", WorkingtimeController, :create)
-   put("/workingtimes/:id", WorkingtimeController, :update)
-   delete("/workingtimes/:id", WorkingtimeController, :delete)
+    get("/workingtimes/:userID", WorkingtimeController, :showByUser)
+    get("/workingtimes/:userID/:id", WorkingtimeController, :show)
+    put("/workingtimes/:id", WorkingtimeController, :update)
+    delete("/workingtimes/:id", WorkingtimeController, :delete)
+
+    resources "/workingtimes", WorkingtimeController, except: [:new, :edit], param: "userID"
+    post("/workingtimes/:userID", WorkingtimeController, :create)
 
    # CLOCKS ROUTES
 
-   get("/clocks/:userID", ClockController, :show)
-   post("/clocks/:userID", ClockController, :create)
+    get("/clocks/:userID", ClockController, :show)
+    post("/clocks/:userID", ClockController, :create)
 
   end
 

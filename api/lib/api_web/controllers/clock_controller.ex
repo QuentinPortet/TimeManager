@@ -14,6 +14,10 @@ defmodule ApiWeb.ClockController do
 
   def create(conn, %{"time" => time, "status" => status, "userID" => user_id}) do
     user = String.to_integer(user_id)
+    clock = Accounts.get_latest_clock_by_user(user_id)
+
+    Logger.info(clock)
+
     with {:ok, %Clock{} = clock} <- Accounts.create_clock(%{time: time, status: status, user_id: user}) do
       conn
       |> put_status(:created)
@@ -39,11 +43,6 @@ defmodule ApiWeb.ClockController do
   def show(conn, %{"userID" => id}) do
     clocks = Accounts.get_clocks_by_user(id)
     render(conn, "index.json", clocks: clocks)
-  end
-
-  def showByUser(conn, %{"userID" => userID}) do
-    clock = Accounts.get_clocks_by_user(userID)
-    render(conn, "show.json", clock: clock)
   end
 
   def update(conn, %{"id" => id, "clock" => clock_params}) do

@@ -1,6 +1,6 @@
 defmodule ApiWeb.WorkingtimeController do
   use ApiWeb, :controller
-
+  require Logger
   alias Api.Accounts
   alias Api.Accounts.Workingtime
 
@@ -11,8 +11,18 @@ defmodule ApiWeb.WorkingtimeController do
     render(conn, "index.json", workingtimes: workingtimes)
   end
 
-  def create(conn, %{"workingtime" => workingtime_params}) do
-    with {:ok, %Workingtime{} = workingtime} <- Accounts.create_workingtime(workingtime_params) do
+  # def create(conn, %{"workingtime" => workingtime_params}) do
+  #   with {:ok, %Workingtime{} = workingtime} <- Accounts.create_workingtime(workingtime_params) do
+  #     conn
+  #     |> put_status(:created)
+  #     |> put_resp_header("location", Routes.workingtime_path(conn, :show, workingtime))
+  #     |> render("show.json", workingtime: workingtime)
+  #   end
+  # end
+
+  def create(conn, %{"start" => start, "end" => stop, "userID" => user_id}) do
+    user = String.to_integer(user_id)
+    with {:ok, %Workingtime{} = workingtime} <- Accounts.create_workingtime(%{start: start, end: stop, user_id: user}) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.workingtime_path(conn, :show, workingtime))
@@ -20,15 +30,21 @@ defmodule ApiWeb.WorkingtimeController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    workingtime = Accounts.get_workingtime!(id)
+  def show(conn, %{"id" => id, "userID" => user_id}) do
+    Logger.info(user_id)
+    workingtime = Accounts.get_workingtime_by_user(id, user_id)
     render(conn, "show.json", workingtime: workingtime)
   end
 
-  def update(conn, %{"id" => id, "workingtime" => workingtime_params}) do
+  def showByUser(conn, %{"userID" => id, "start" => start, "end" => stop}) do
+    workingtimes = Accounts.get_workingtimes_by_params(id, start, stop)
+    render(conn, "index.json", workingtimes: workingtimes)
+  end
+
+  def update(conn, %{"id" => id, "start" => start, "end" => stop}) do
     workingtime = Accounts.get_workingtime!(id)
 
-    with {:ok, %Workingtime{} = workingtime} <- Accounts.update_workingtime(workingtime, workingtime_params) do
+    with {:ok, %Workingtime{} = workingtime} <- Accounts.update_workingtime(workingtime, %{start: start, end: stop}) do
       render(conn, "show.json", workingtime: workingtime)
     end
   end

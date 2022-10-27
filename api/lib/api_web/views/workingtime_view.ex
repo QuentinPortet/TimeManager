@@ -1,6 +1,7 @@
 defmodule ApiWeb.WorkingtimeView do
   use ApiWeb, :view
   alias ApiWeb.WorkingtimeView
+  alias Api.Accounts
 
   def render("index.json", %{workingtimes: workingtimes}) do
     %{data: render_many(workingtimes, WorkingtimeView, "workingtime.json")}
@@ -11,10 +12,16 @@ defmodule ApiWeb.WorkingtimeView do
   end
 
   def render("workingtime.json", %{workingtime: workingtime}) do
+    user = Accounts.get_user!(workingtime.user_id)
+
     %{
       id: workingtime.id,
       start: workingtime.start,
-      end: workingtime.end
+      end: workingtime.end,
+      user: %{
+        username: user.username,
+        email: user.email
+      }
     }
   end
 end
