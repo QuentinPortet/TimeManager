@@ -1,15 +1,26 @@
+<script setup>
+defineProps({
+    userid: {
+        type: String,
+        required: true,
+    },
+});
+</script>
+
+
 <script>
 import axios from "axios";
+import FancyCard from "./FancyCard.vue";
 export default {
     name: "ClockManager",
+
     methods: {
         cloking: function () {
-            console.log("clocked");
-            axios.post('http://localhost:4000/api/workingtimes', {
+            axios.post('http://localhost:4000/api/workingtimes/'+this.userid, {
                 startDateTime: this.startDateTime,
                 endDateTime: Date.now(),
                 user: this.user
-            }, { headers: { 'Access-Control-Allow-Origin': '*' } })
+            }, {header:  'Access-Control-Allow-Origin: *'})
                 .then(response => {
                     this.endDateTime = Date.now()
                 })
@@ -28,21 +39,15 @@ export default {
         };
     },
     mounted() {
-        try {
-            axios.get("http://localhost:4000/api/workingtimes/1" )
-                .then(response => {
-                    console.log(response.data.data);
-                    this.startDateTime = response.data.data[0].end
-                    this.endDateTime = response.data.data[0].end
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-
-        } catch (error) {
-            console.log(error);
-        }
-
+        axios.get("http://localhost:4000/api/workingtimes/"+this.userid)
+            .then(response => {
+                console.log(response)
+                this.startDateTime = response.data.data[response.data.data.length-1].start
+                this.endDateTime = response.data.data[0].end
+            })
+            .catch(error => {
+                console.log(error);
+            });
     },
     beforeUnmount() {
     },
@@ -52,24 +57,22 @@ export default {
 
 
 <template>
-    <div class="card">
-        <div class="fancy-stripe">.</div>
-        <h1 class="header">
-            ClockManager
-        </h1>
-        <div class="content">
+    <FancyCard>
+        <template #header>Clock Manager</template>
+        <template #mainpart>
             <div>
-                First clock: <span class="important">{{ this.startDateTime }}</span>
+                <div>
+                    First clock: <span class="important">{{ this.startDateTime == '' ? 'none' : this.startDateTime }}</span>
+                </div>
+                <div>
+                    clock is running : <span class="important"> {{ this.endDateTime == '' ? 'yes' : 'no' }} </span>
+                </div>
+                <div class="center">
+                    <button @click="cloking">Clock</button>
+                </div>
             </div>
-            <div>
-                clock is running : <span class="important"> {{ this.endDateTime == '' ? 'yes' : 'no' }} </span>
-            </div>
-            <div class="center">
-                <button @click="cloking">Clock</button>
-
-            </div>
-        </div>
-    </div>
+        </template>
+    </FancyCard>
 </template>
 
 <style scoped>
