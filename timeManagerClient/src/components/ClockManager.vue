@@ -10,15 +10,19 @@ defineProps({
 <script>
 import axios from "axios";
 import FancyCard from "./FancyCard.vue";
+import FancyButton from "./FancyButton.vue";
 export default {
     name: "ClockManager",
-
+    components: {
+        FancyCard,
+        FancyButton,
+    },
     methods: {
         cloking: function () {
-            axios.post('http://localhost:4000/api/workingtimes/'+this.userid, {
-                start: this.startDateTime,
-                end: Date.now(),
-            }, {header:  'Access-Control-Allow-Origin: *'})
+            axios.post('http://localhost:4000/api/clocks/' + this.userid, {
+                time: Date.now(),
+                status: false,
+            })
                 .then(response => {
                     this.endDateTime = Date.now();
                 })
@@ -29,18 +33,20 @@ export default {
     },
     data() {
         return {
-            userID: 1,
-            startDateTime: '',
-            endDateTime: 'error',
-            end: '',
-            user: ''
+            time: '',
+            status: false,
         };
     },
     mounted() {
-        axios.get("http://localhost:4000/api/workingtimes/"+this.userid)
+        axios.get("http://localhost:4000/api/clocks/" + this.userid, { header: 'Access-Control-Allow-Origin: *' })
             .then(response => {
-                console.log(response)
-                this.startDateTime = response.data.data[response.data.data.length-1].start;
+                let data = response.data.data[0];
+                if (data.length == 0) {
+                    this.time = '';
+                } else {
+                    this.time = data.time;
+                }
+                this.startDateTime = response.data.data[response.data.data.length - 1].start;
                 this.endDateTime = response.data.data[0].end;
             })
             .catch(error => {
@@ -59,13 +65,13 @@ export default {
         <template #mainpart>
             <div>
                 <div>
-                    First clock: <span class="important">{{ this.startDateTime == '' ? 'none' : this.startDateTime }}</span>
+                    First clock: <span class="important">{{ this.time }}</span>
                 </div>
                 <div>
-                    clock is running : <span class="important"> {{ this.endDateTime == '' ? 'yes' : 'no' }} </span>
+                    Clock is running : <span class="important"> {{ this.status ? 'yes' : 'no' }} </span>
                 </div>
                 <div class="center">
-                    <button @click="cloking">Clock</button>
+                    <FancyButton @click="cloking"> <template #text>Clock</template></FancyButton>
                 </div>
             </div>
         </template>

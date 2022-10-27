@@ -37,17 +37,7 @@ export default {
     <FancyCard>
         <template #header>Working Times</template>
         <template #mainpart>
-            <div>
-                <div>
-                    First clock: <span class="important">{{ this.startDateTime }}</span>
-                </div>
-                <div>
-                    clock is running : <span class="important"> {{ this.endDateTime == '' ? 'yes' : 'no' }} </span>
-                </div>
-                <div class="center">
-                    <button @click="cloking">Clock</button>
-                </div>
-            </div>
+            
         </template>
         </FancyCard>
 </template>
