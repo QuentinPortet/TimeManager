@@ -8,7 +8,7 @@
 .bar {
   background: var(--color-background-soft);
   top: -16px;
-  height: 105vh;
+  height: 100%;
   width: 380px;
   box-shadow: 2px 2px 6px #11111166;
 }
