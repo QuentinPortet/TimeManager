@@ -12,14 +12,14 @@ defineProps({
 import axios from "axios";
 import FancyCard from "./FancyCard.vue";
 export default {
-    name: "ClockManager",
+    name: "Working Times",
 
     methods: {
-        getWorkingTimes: function (){
+        getworkingTimes: function (){
             axios.get("http://localhost:4000/api/workingtimes/"+this.userid, {params: {start: new Date(0), end: new Date(Date.now())}, header: 'Access-Control-Allow-Origin: *' })
             .then(response => {
 
-                this.workingtimes = response.data.data;
+                this.workingTimes = response.data.data;
                 console.log(response.data.data);
                 
             })
@@ -29,11 +29,11 @@ export default {
         }
     },
     mounted() {
-        this.getWorkingTimes();
+        this.getworkingTimes();
     },
     data() {
         return {
-            workingtimes: [],
+            workingTimes: [],
         };
     },
     beforeUnmount() {
@@ -46,7 +46,7 @@ export default {
     <FancyCard>
         <template #header>Working Times</template>
         <template #mainpart>
-            <li v-for="workingtime in workingtimes" :key="workingtime.id">
+            <li v-for="workingtime in workingTimes" :key="workingtime.id">
                 {{workingtime.start}} - {{workingtime.end}}
             </li>
         </template>

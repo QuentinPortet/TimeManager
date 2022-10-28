@@ -70,3 +70,37 @@ body {
   font-weight: 900;
   font-size: 20px;
 }
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  color: white;
+  position: relative;
+  width: 50%;
+  max-height: 300px;
+  padding: 16px;
+  overflow: auto;
+  background-color: #222222;
+  border-radius: 4px;
+}
+.modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  margin: 8px 8px 0 0;
+  cursor: pointer;
+}
+.modal-close::hover {
+  color: gray;
+}
+
+form input{
+  margin-bottom: 10px;
+}

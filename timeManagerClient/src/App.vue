@@ -3,6 +3,7 @@ import UserComponent from "./components/UserComponent.vue";
 import SideBar from "./components/SideBar.vue";
 import ClockManager from "./components/ClockManager.vue";
 import WorkingTimes from "./components/WorkingTimes.vue";
+import WorkingTime from "./components/WorkingTime.vue";
 </script>
 
 <template>
@@ -15,6 +16,7 @@ import WorkingTimes from "./components/WorkingTimes.vue";
     <div style="margin: 16px">
       <ClockManager userid="1"></ClockManager>
       <WorkingTimes userid="1"></WorkingTimes>
+      <WorkingTime userid="1"></WorkingTime>
     </div>
   </div>
 </template>
