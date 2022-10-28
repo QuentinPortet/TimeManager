@@ -26,8 +26,6 @@ services:
       context: ./timeManagerClient
       dockerfile: Dockerfile
     ports:
-      - 5173:5173
-    depends_on:
-      - server
+      - 80:80
 volumes:
   db_data:
