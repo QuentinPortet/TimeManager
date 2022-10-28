@@ -11,7 +11,7 @@ export default {
   data() {
     return {
       username: "",
-      email: "toto@epitech.eu",
+      email: "",
       userId: 0,
       userList: [],
       info: null,
@@ -48,7 +48,7 @@ export default {
       this.$toast.show(`Profil modifié`);
     },
     getUser: function () {
-      axios.get("http://localhost:4000/api/users/5").then((response) => {
+      axios.get("http://localhost:4000/api/users/1").then((response) => {
         this.username = response.data.data.username;
         this.email = response.data.data.email;
         this.userId = response.data.data.id;
@@ -57,7 +57,6 @@ export default {
     getAllUsers: function () {
       axios.get("http://localhost:4000/api/users").then((response) => {
         this.userList = response.data.data;
-        console.log("list", this.userList);
       });
     },
     deleteUser: function () {
@@ -78,21 +77,13 @@ export default {
     Your registered email address is <strong>{{ email }} </strong>.
   </div>
   <div style="display: flex; justify-content: space-around; margin: 16px">
-    <FancyButton @click="updateUser"> Modifier mon profil </FancyButton>
-    <FancyButton
-      @click="deleteUser"
-      color="linear-gradient(323deg, rgba(107,0,0,1) 0%, rgba(154,17,0,1) 100%);"
-    >
-      Supprimer mon profil
+    <FancyButton @click="updateUser"> Edit my profile </FancyButton>
+    <FancyButton @click="deleteUser" color="danger">
+      Delete my profile
     </FancyButton>
   </div>
   <div style="display: flex; justify-content: space-around; margin: 16px">
-    <FancyButton
-      @click="createUser"
-      color="linear-gradient(323deg, rgba(0,170,119,1) 0%, rgba(0,156,154,1) 100%);"
-    >
-      Ajouter un nouvel utilisateur
-    </FancyButton>
+    <FancyButton @click="createUser"> Add a new user </FancyButton>
   </div>
   <div
     class="hidden-scrollbar"

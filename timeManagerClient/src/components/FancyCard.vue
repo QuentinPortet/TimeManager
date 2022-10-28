@@ -35,7 +35,11 @@ export default {
 .card .fancy-stripe {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  background: linear-gradient(323deg, #1a302a 0%, #09a3a1 100%);
+  background: linear-gradient(
+    323deg,
+    var(--color-secondary-shade) 0%,
+    var(--color-primary-shade) 100%
+  );
   width: 100%;
   height: 16px;
 }
