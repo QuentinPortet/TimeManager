@@ -3,8 +3,8 @@ defmodule Api.Accounts.Workingtime do
   import Ecto.Changeset
 
   schema "workingtimes" do
-    field :end, :naive_datetime
-    field :start, :naive_datetime
+    field :end, :utc_datetime
+    field :start, :utc_datetime
     belongs_to :user, Api.Accounts.User
 
     timestamps()
