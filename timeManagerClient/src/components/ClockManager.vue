@@ -40,7 +40,6 @@ export default {
                 } else {
                     this.time = data.time;
                     this.status = !this.status;
-                    console.log(this.status);
                 }
                 this.lastTime = response.data.data[response.data.data.length - 1].time;
             })
@@ -70,7 +69,7 @@ export default {
     <template #mainpart>
       <div>
         <div>
-          First clock:
+          Last clock:
           <span class="important">{{
             this.lastTime == "" ? "none" : this.lastTime
           }}</span>
