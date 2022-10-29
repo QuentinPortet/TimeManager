@@ -110,7 +110,7 @@ export default {
         <template #header>Working Time</template>
         <template #mainpart>
             <input type="number" v-model="workingtimeid" @change="this.getWorkingTimes($event.target.value)"
-                id="useridpicker" />
+                id="useridpicker" /> <span @click="this.getWorkingTimes()" style="cursor:pointer">&#x21bb;</span>
             <FancyButton color="gray" @click="this.showCreate = true">+</FancyButton>
             <li v-for="workingtime in workingtimes" :key="workingtime.id">
                 {{ workingtime.start }} - {{ workingtime.end }} <FancyButton @click="show(workingtime)"> Update
