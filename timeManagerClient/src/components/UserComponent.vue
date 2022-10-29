@@ -55,6 +55,7 @@ export default {
       this.showCreate = false;
     },
     updateUser: function (event) {
+      event.preventDefault();
       let username = document.getElementById("editUsername").value;
       let email = document.getElementById("editEmail").value;
       axios
@@ -64,6 +65,7 @@ export default {
         })
         .then((response) => (this.info = response));
       this.$toast.show(`Profil modifié`);
+      this.showEdit = false;
       this.getUser();
     },
     getUser: function () {
@@ -80,7 +82,8 @@ export default {
         console.log("list", this.userList);
       });
     },
-    deleteUser: function () {
+    deleteUser: function (event) {
+      event.preventDefault();
       axios
         .delete("http://localhost:4000/api/users/" + this.userid)
         .then((response) => (this.info = response));
@@ -147,7 +150,7 @@ export default {
     <vue-final-modal v-model="showDelete" classes="modal-container" content-class="modal-content">
         <span>Delete your account ?</span>
         <form>
-            <FancyButton color="green" @click="deleteUser()">Yes</FancyButton>
+            <FancyButton color="green" @click="deleteUser($event)">Yes</FancyButton>
             <FancyButton color="red" @click="showDelete = false">No</FancyButton>
         </form>
     </vue-final-modal>
