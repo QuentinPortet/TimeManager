@@ -24,6 +24,7 @@ export default {
       userId: 0,
       userList: [],
       info: null,
+      showCreate: false,
     };
   },
   mounted() {
@@ -38,14 +39,18 @@ export default {
 
       return days.toString() + "d, " + hours.toString() + "h";
     },
-    createUser: function () {
+    createUser: function (event) {
+      event.preventDefault();
+      let username = document.getElementById("newUsername").value;
+      let email = document.getElementById("newEmail").value;
       axios
         .post("http://localhost:4000/api/users", {
-          username: "Titi",
-          email: "titi@epitech.eu",
+          username: username,
+          email: email,
         })
         .then((response) => (this.info = response));
       this.$toast.show(`Utilisateur créé`);
+      this.showCreate = false;
     },
     updateUser: function () {
       axios
@@ -98,7 +103,7 @@ export default {
   </div>
   <div style="display: flex; justify-content: space-around; margin: 16px">
     <FancyButton
-      @click="createUser"
+      @click="showCreate = true"
       color="linear-gradient(323deg, rgba(0,170,119,1) 0%, rgba(0,156,154,1) 100%);"
     >
       Ajouter un nouvel utilisateur
@@ -122,6 +127,17 @@ export default {
       </FancyCard>
     </div>
   </div>
+  <vue-final-modal v-model="showCreate" classes="modal-container" content-class="modal-content">
+        <span>Create new User</span>
+        <form>
+            <label>Username: </label>
+            <input id="newUsername" type="text"><br>
+            <label>Email: </label>
+            <input id="newEmail" type="email"><br>
+            <FancyButton @click="createUser($event)">Create</FancyButton>
+        </form>
+
+    </vue-final-modal>
 </template>
 
 <style>
