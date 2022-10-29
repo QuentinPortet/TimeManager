@@ -1,3 +1,12 @@
+<script setup>
+defineProps({
+    userid: {
+        type: String,
+        required: true,
+    },
+});
+</script>
+
 <script>
 import axios from "axios";
 import FancyButton from "./FancyButton.vue";
@@ -11,7 +20,7 @@ export default {
   data() {
     return {
       username: "",
-      email: "toto@epitech.eu",
+      email: "",
       userId: 0,
       userList: [],
       info: null,
@@ -40,7 +49,7 @@ export default {
     },
     updateUser: function () {
       axios
-        .put("http://localhost:4000/api/users/1", {
+        .put("http://localhost:4000/api/users/1 ", {
           username: "Tutu",
           email: "tutu@modified.eu",
         })
@@ -48,7 +57,8 @@ export default {
       this.$toast.show(`Profil modifié`);
     },
     getUser: function () {
-      axios.get("http://localhost:4000/api/users/5").then((response) => {
+      axios.get("http://localhost:4000/api/users/"+this.userid).then((response) => {
+        console.log(response.data.data);
         this.username = response.data.data.username;
         this.email = response.data.data.email;
         this.userId = response.data.data.id;
@@ -73,9 +83,9 @@ export default {
 <template>
   <div class="title">Users panel</div>
   <div class="content" style="margin: 16px">
-    You are currently logged in as <strong>{{ username }} </strong>.
+    You are currently logged in as <strong>{{ this.username }} </strong>.
     <br />
-    Your registered email address is <strong>{{ email }} </strong>.
+    Your registered email address is <strong>{{ this.email }} </strong>.
   </div>
   <div style="display: flex; justify-content: space-around; margin: 16px">
     <FancyButton @click="updateUser"> Modifier mon profil </FancyButton>

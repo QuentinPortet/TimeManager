@@ -11,7 +11,7 @@ import WorkingTime from "./components/WorkingTime.vue";
   <header></header>
   <div style="display: flex">
     <SideBar>
-      <UserComponent></UserComponent>
+      <UserComponent userid="1"></UserComponent>
       <ClockManager userid="1" style="margin: 16px"></ClockManager>
     </SideBar>
     <div>
