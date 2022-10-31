@@ -1,9 +1,9 @@
 <script setup>
 defineProps({
-  userid: {
-    type: String,
-    required: true,
-  },
+    userid: {
+        type: String,
+        required: true,
+    },
 });
 </script>
 
@@ -12,25 +12,10 @@ import axios from "axios";
 import FancyCard from "./FancyCard.vue";
 import FancyButton from "./FancyButton.vue";
 export default {
-  name: "ClockManager",
-  components: {
-    FancyCard,
-    FancyButton,
-  },
-  methods: {
-    clocking: function () {
-      axios
-        .post("http://localhost:4000/api/clocks/" + this.userid, {
-          time: new Date(),
-          status: true,
-        })
-        .then((response) => {
-          this.endDateTime = Date.now();
-          this.$toast.show(`Clocking registered`);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    name: "ClockManager",
+    components: {
+        FancyCard,
+        FancyButton,
     },
     methods: {
         cloking: function () {
@@ -74,7 +59,8 @@ export default {
     },
     beforeUnmount() {
     },
-}
+};
+
 </script>
 
 <template>
@@ -95,11 +81,13 @@ export default {
           </span>
         </div>
         <div class="center">
-          <FancyButton @click="clocking">Clock</FancyButton>
+          <FancyButton @click="cloking">{{  this.status ? "clock out" : "clock in" }}</FancyButton>
         </div>
       </div>
     </template>
   </FancyCard>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>
