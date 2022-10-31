@@ -38,12 +38,7 @@
   --color-primary: #09a3a1;
   --color-primary-shade: #068684;
   --color-primary-transparent: #09a3a140;
-
-  --color-secondary: #0dff86;
-  --color-secondary-shade: #00af58;
-
-  --color-danger: #a40000;
-  --color-danger-shade: #7e0000;
+  height: 100%;
 }
 
 @media (prefers-color-scheme: dark) {

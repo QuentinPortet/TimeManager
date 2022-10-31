@@ -1,7 +1,5 @@
 FROM node:lts-alpine as build
 
-
-
 RUN npm install -g http-server
 
 WORKDIR /app
@@ -13,8 +11,6 @@ RUN npm install
 COPY . .
 
 RUN npm run build
-
-
 
 FROM nginx:stable-alpine as production-stage
 

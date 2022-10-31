@@ -1,10 +1,7 @@
 <script>
-import axios from "axios";
 import FancyCard from "./FancyCard.vue";
 import { DoughnutChart, LineChart, BarChart } from "vue-chart-3";
 import { Chart, registerables } from "chart.js";
-// eslint-disable-next-line no-unused-vars
-import moment from "moment";
 
 Chart.register(...registerables);
 
@@ -18,18 +15,13 @@ export default {
   data() {
     return {
       info: null,
-      username: "",
-      email: "",
-      userId: 0,
-      userClocks: [],
-      diffLastClock: 0,
       doughnutData: {
-        labels: ["Time worked", "Time left"],
+        labels: ["Current working time", "Daily objective"],
         datasets: [
           {
-            data: [0, 28800000],
-            borderColor: ["#0dff86", "#09a3a1"],
-            backgroundColor: ["#0dff8630", "#09a3a130"],
+            data: [23, 77],
+            borderColor: ["#09a3a1", "#0dff86"],
+            backgroundColor: ["#09a3a130", "#0dff8630"],
             borderWidth: 1,
           },
         ],
@@ -63,33 +55,14 @@ export default {
     };
   },
   mounted() {
-    this.getUser();
-    this.getUserClocks();
+    this.generateFakeWorkingTime();
   },
   methods: {
-    async getUserClocks() {
-      await axios.get("http://localhost:4000/api/clocks/1").then((response) => {
-        this.userClocks = response.data.data;
-      });
-      this.fillDatasets();
-    },
-    getUser() {
-      axios.get("http://localhost:4000/api/users/1").then((response) => {
-        this.username = response.data.data.username;
-        this.email = response.data.data.email;
-        this.userId = response.data.data.id;
-      });
-    },
-    fillDatasets() {
-      this.diffLastClock = moment().diff(
-        moment(this.userClocks[this.userClocks.length - 1].time)
-      );
-      console.log("test", this.diffLastClock);
-      this.doughnutData.datasets.data = [
-        this.diffLastClock,
-        28800000 - this.diffLastClock,
-      ];
-      console.log("toto", this.doughnutData.datasets.data);
+    generateFakeWorkingTime() {
+      const days = Math.floor(Math.random() * 99);
+      const hours = Math.floor(Math.random() * 23);
+
+      return days.toString() + "d, " + hours.toString() + "h";
     },
   },
 };
@@ -103,7 +76,7 @@ export default {
         <FancyCard stripe="false" style="width: 50%">
           <template #header>Daily objective</template>
           <template #mainpart>
-            <DoughnutChart v-model="diffLastClock" :chartData="doughnutData" />
+            <DoughnutChart :chartData="doughnutData" />
           </template>
         </FancyCard>
         <FancyCard stripe="false" style="width: 50%">
