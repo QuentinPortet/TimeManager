@@ -9,12 +9,12 @@ import WorkingTime from "./components/WorkingTime.vue";
 
 <template>
   <header></header>
-  <div style="display: flex; width: 100%;">
-    <SideBar style="z-index: 10;">
-      <UserComponent userid="1"></UserComponent>
+  <div style="display: flex">
+    <SideBar>
+      <UserComponent></UserComponent>
       <ClockManager userid="1" style="margin: 16px"></ClockManager>
     </SideBar>
-    <div class="card-container">
+    <div>
       <div style="margin: 16px; display: flex; justify-content: space-around">
         <ChartManager></ChartManager>
       </div>

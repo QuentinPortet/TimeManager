@@ -1,12 +1,3 @@
-<script setup>
-defineProps({
-  userid: {
-    type: String,
-    required: true,
-  },
-});
-</script>
-
 <script>
 import axios from "axios";
 import FancyButton from "./FancyButton.vue";
@@ -24,9 +15,6 @@ export default {
       userId: 0,
       userList: [],
       info: null,
-      showCreate: false,
-      showDelete: false,
-      showEdit: false,
     };
   },
   mounted() {
@@ -41,32 +29,23 @@ export default {
 
       return days.toString() + "d, " + hours.toString() + "h";
     },
-    createUser: function (event) {
-      event.preventDefault();
-      let username = document.getElementById("newUsername").value;
-      let email = document.getElementById("newEmail").value;
+    createUser: function () {
       axios
         .post("http://localhost:4000/api/users", {
-          username: username,
-          email: email,
+          username: "Titi",
+          email: "titi@epitech.eu",
         })
         .then((response) => (this.info = response));
       this.$toast.show(`Utilisateur créé`);
-      this.showCreate = false;
     },
-    updateUser: function (event) {
-      event.preventDefault();
-      let username = document.getElementById("editUsername").value;
-      let email = document.getElementById("editEmail").value;
+    updateUser: function () {
       axios
-        .put("http://localhost:4000/api/users/1 ", {
-          username: username,
-          email: email,
+        .put("http://localhost:4000/api/users/1", {
+          username: "Tutu",
+          email: "tutu@modified.eu",
         })
         .then((response) => (this.info = response));
       this.$toast.show(`Profil modifié`);
-      this.showEdit = false;
-      this.getUser();
     },
     getUser: function () {
       axios.get("http://localhost:4000/api/users/1").then((response) => {
@@ -80,13 +59,11 @@ export default {
         this.userList = response.data.data;
       });
     },
-    deleteUser: function (event) {
-      event.preventDefault();
+    deleteUser: function () {
       axios
-        .delete("http://localhost:4000/api/users/" + this.userid)
+        .delete("http://localhost:4000/api/users/" + "4")
         .then((response) => (this.info = response));
       this.$toast.show(`Profil supprimé`);
-      this.showDelete = false;
     },
   },
 };
@@ -95,9 +72,9 @@ export default {
 <template>
   <div class="title">Users panel</div>
   <div class="content" style="margin: 16px">
-    You are currently logged in as <strong>{{ this.username }} </strong>.
+    You are currently logged in as <strong>{{ username }} </strong>.
     <br />
-    Your registered email address is <strong>{{ this.email }} </strong>.
+    Your registered email address is <strong>{{ email }} </strong>.
   </div>
   <div style="display: flex; justify-content: space-around; margin: 16px">
     <FancyButton @click="updateUser"> Edit my profile </FancyButton>
@@ -126,50 +103,6 @@ export default {
       </FancyCard>
     </div>
   </div>
-  <vue-final-modal
-    v-model="showCreate"
-    classes="modal-container"
-    content-class="modal-content"
-    style="z-index: 2"
-  >
-    <span>Create new User</span>
-    <form>
-      <label>Username: </label>
-      <input id="newUsername" type="text" /><br />
-      <label>Email: </label>
-      <input id="newEmail" type="email" /><br />
-      <FancyButton @click="createUser($event)">Create</FancyButton>
-    </form>
-  </vue-final-modal>
-
-  <vue-final-modal
-    v-model="showDelete"
-    classes="modal-container"
-    content-class="modal-content"
-  >
-    <span>Delete your account ?</span>
-    <form>
-      <FancyButton color="green" @click="this.deleteUser($event)"
-        >Yes</FancyButton
-      >
-      <FancyButton color="red" @click="this.showDelete = false">No</FancyButton>
-    </form>
-  </vue-final-modal>
-
-  <vue-final-modal
-    v-model="showEdit"
-    classes="modal-container"
-    content-class="modal-content"
-  >
-    <span>Edit your account informations</span>
-    <form>
-      <input id="editUsername" type="text" v-model="username" /><br />
-      <input id="editEmail" type="email" v-model="email" /><br />
-      <FancyButton color="green" @click="updateUser($event)"
-        >Update</FancyButton
-      >
-    </form>
-  </vue-final-modal>
 </template>
 
 <style>

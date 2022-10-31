@@ -15,6 +15,7 @@ CREATE FUNCTION clocks_to_worktime() RETURNS trigger AS $clocks_to_worktime$
 
 
 $clocks_to_worktime$ LANGUAGE plpgsql;
+		
 
 
 CREATE TRIGGER clocks_trig BEFORE INSERT OR UPDATE ON clocks

@@ -51,14 +51,14 @@ export default {
                     console.log(error);
                 })
         },
-        createWorkingTime: function (event) {
+        createWorkingTime: function(event){
             event.preventDefault();
             let useridpicked = document.getElementById("useridpicker").value;
-            useridpicked == '' ? useridpicked = this.userid : useridpicked = useridpicked;
+            useridpicked == '' ? useridpicked = this.userid : useridpicked = useridpicked; 
             let start = document.getElementById("newStart").value;
             let end = document.getElementById("newEnd").value;
             console.log(start)
-            axios.post("http://localhost:4000/api/workingtimes/" + useridpicked, { start: start, end: end }, { header: 'Access-Control-Allow-Origin: *' })
+            axios.post("http://localhost:4000/api/workingtimes/"+ useridpicked, { start: start, end: end }, { header: 'Access-Control-Allow-Origin: *' })
                 .then(response => {
                     this.getWorkingTimes();
                     this.showModal = false;
@@ -68,8 +68,7 @@ export default {
                 })
 
         },
-        delete: function (event) {
-            event.preventDefault();
+        delete: function () {
             axios.delete("http://localhost:4000/api/workingtimes/" + this.workingtime.id, { header: 'Access-Control-Allow-Origin: *' })
                 .then(response => {
                     this.getWorkingTimes();
@@ -78,10 +77,10 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
-            this.showDelete = false;
         },
         showDeleteModal: function (wt) {
             this.showDelete = true;
+            console.log("ici")
             this.workingtime = wt;
         }
     },
@@ -109,8 +108,7 @@ export default {
     <FancyCard>
         <template #header>Working Time</template>
         <template #mainpart>
-            <input type="number" v-model="workingtimeid" @change="this.getWorkingTimes($event.target.value)"
-                id="useridpicker" /> <span @click="this.getWorkingTimes()" style="cursor:pointer">&#x21bb;</span>
+            <input type="number" v-model="workingtimeid" @change="this.getWorkingTimes($event.target.value)" id="useridpicker"/>
             <FancyButton color="gray" @click="this.showCreate = true">+</FancyButton>
             <li v-for="workingtime in workingtimes" :key="workingtime.id">
                 {{ workingtime.start }} - {{ workingtime.end }} <FancyButton @click="show(workingtime)"> Update
@@ -132,14 +130,17 @@ export default {
             <input id="newEndUpdate" name="end" type="datetime-local" v-model='this.workingtime.end'><br>
             <FancyButton color="green" @click="this.UpdateWorkingTime($event)"> Update </FancyButton>
         </form>
+        <button class="modal-close" @click="this.showModal = false">
+            x
+        </button>
     </vue-final-modal>
 
     <vue-final-modal v-model="showDelete" classes="modal-container" content-class="modal-content">
         <span>Are you sure to delete ?</span><br>
-        <FancyButton color="green" @click="this.delete($event)">yes</FancyButton>
+        <FancyButton color="green" @click="this.delete()">yes</FancyButton>
         <FancyButton color="red" @click="this.showDelete = false">no</FancyButton>
     </vue-final-modal>
-
+    
     <vue-final-modal v-model="showCreate" classes="modal-container" content-class="modal-content">
         <span>Create new Working time</span>
         <form>

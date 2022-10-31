@@ -16,7 +16,7 @@ config :api, Api.Repo,
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :api, ApiWeb.Endpoint,
-  http: [ip: {0, 0, 0, 0}, port: 4002],
+  http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "dZCh5olJGt0E3qrMzlMRzaoIO3q6i5I73wUdxkdLmhyMfs6RwC77wrdcH84IBEax",
   server: false
 
