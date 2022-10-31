@@ -15,10 +15,10 @@ import WorkingTime from "./components/WorkingTime.vue";
       <ClockManager userid="1" style="margin: 16px"></ClockManager>
     </SideBar>
     <div class="card-container">
-      <div style="margin: 16px; display: flex; justify-content: space-around">
+      <div style="margin: 16px; display: flex; justify-content: space-between; width: 150vh;">
         <ChartManager></ChartManager>
       </div>
-      <div style="margin: 16px; display: flex; justify-content: space-around">
+      <div style="margin: 16px; display: flex; justify-content: space-between; width: 150vh;">
         <WorkingTimes userid="1"></WorkingTimes>
         <WorkingTime userid="1"></WorkingTime>
       </div>
