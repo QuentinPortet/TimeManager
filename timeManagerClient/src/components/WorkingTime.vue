@@ -38,9 +38,10 @@ export default {
             console.log(wt.start);
             this.workingtime = wt;
         },
-        submit: function () {
-            let start = document.getElementById("start").value;
-            let end = document.getElementById("end").value;
+        UpdateWorkingTime: function (event) {
+            event.preventDefault();
+            let start = document.getElementById("newStartUpdate").value;
+            let end = document.getElementById("newEndUpdate").value;
             axios.put("http://localhost:4000/api/workingtimes/" + this.workingtime.id, { start: start, end: end, user_id: this.userid }, { header: 'Access-Control-Allow-Origin: *' })
                 .then(response => {
                     this.getWorkingTimes();
@@ -49,6 +50,23 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
+        },
+        createWorkingTime: function(event){
+            event.preventDefault();
+            let useridpicked = document.getElementById("useridpicker").value;
+            useridpicked == '' ? useridpicked = this.userid : useridpicked = useridpicked; 
+            let start = document.getElementById("newStart").value;
+            let end = document.getElementById("newEnd").value;
+            console.log(start)
+            axios.post("http://localhost:4000/api/workingtimes/"+ useridpicked, { start: start, end: end }, { header: 'Access-Control-Allow-Origin: *' })
+                .then(response => {
+                    this.getWorkingTimes();
+                    this.showModal = false;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+
         },
         delete: function () {
             axios.delete("http://localhost:4000/api/workingtimes/" + this.workingtime.id, { header: 'Access-Control-Allow-Origin: *' })
@@ -74,6 +92,7 @@ export default {
         return {
             showModal: false,
             showDelete: false,
+            showCreate: false,
             workingtimeid: '',
             workingtime: '',
             workingtimes: [],
@@ -89,7 +108,8 @@ export default {
     <FancyCard>
         <template #header>Working Time</template>
         <template #mainpart>
-            <input type="number" v-model="workingtimeid" @change="this.getWorkingTimes($event.target.value)" />
+            <input type="number" v-model="workingtimeid" @change="this.getWorkingTimes($event.target.value)" id="useridpicker"/>
+            <FancyButton color="gray" @click="this.showCreate = true">+</FancyButton>
             <li v-for="workingtime in workingtimes" :key="workingtime.id">
                 {{ workingtime.start }} - {{ workingtime.end }} <FancyButton @click="show(workingtime)"> Update
                 </FancyButton>
@@ -106,18 +126,30 @@ export default {
         </div>
         <form id="updateForm">
             <input hidden name="id" type="text" v-model='this.workingtime.id'><br>
-            <input id="start" name="start" type="datetime-local" v-model='this.workingtime.start'><br>
-            <input id="end" name="end" type="datetime-local" v-model='this.workingtime.end'><br>
-            <FancyButton color="green" @click="this.submit()"> Update </FancyButton>
+            <input id="newStartUpdate" name="start" type="datetime-local" v-model='this.workingtime.start'><br>
+            <input id="newEndUpdate" name="end" type="datetime-local" v-model='this.workingtime.end'><br>
+            <FancyButton color="green" @click="this.UpdateWorkingTime($event)"> Update </FancyButton>
         </form>
         <button class="modal-close" @click="this.showModal = false">
             x
         </button>
     </vue-final-modal>
+
     <vue-final-modal v-model="showDelete" classes="modal-container" content-class="modal-content">
         <span>Are you sure to delete ?</span><br>
         <FancyButton color="green" @click="this.delete()">yes</FancyButton>
         <FancyButton color="red" @click="this.showDelete = false">no</FancyButton>
+    </vue-final-modal>
+    
+    <vue-final-modal v-model="showCreate" classes="modal-container" content-class="modal-content">
+        <span>Create new Working time</span>
+        <form>
+            <label>Start: </label>
+            <input id="newStart" type="datetime-local"><br>
+            <label>End: </label>
+            <input id="newEnd" type="datetime-local"><br>
+            <FancyButton @click="createWorkingTime($event)">Create</FancyButton>
+        </form>
 
     </vue-final-modal>
 
