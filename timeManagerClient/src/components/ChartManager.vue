@@ -1,9 +1,19 @@
+<script setup>
+
+defineProps({
+  userid: {
+    type: String,
+    required: true,
+  },
+});
+</script>
+
 <script>
-import axios from "axios";
 import FancyCard from "./FancyCard.vue";
 import { DoughnutChart, LineChart, BarChart } from "vue-chart-3";
 import { Chart, registerables } from "chart.js";
-// eslint-disable-next-line no-unused-vars
+import axios from "axios";
+import { parseStringStyle } from "@vue/shared";
 import moment from "moment";
 
 Chart.register(...registerables);
@@ -18,18 +28,14 @@ export default {
   data() {
     return {
       info: null,
-      username: "",
-      email: "",
-      userId: 0,
-      userClocks: [],
-      diffLastClock: 0,
+      weekWorkingTimes: null,
       doughnutData: {
-        labels: ["Time worked", "Time left"],
+        labels: ["Current working time", "Daily objective"],
         datasets: [
           {
-            data: [0, 28800000],
-            borderColor: ["#0dff86", "#09a3a1"],
-            backgroundColor: ["#0dff8630", "#09a3a130"],
+            data: [23, 77],
+            borderColor: ["#09a3a1", "#0dff86"],
+            backgroundColor: ["#09a3a130", "#0dff8630"],
             borderWidth: 1,
           },
         ],
@@ -62,36 +68,40 @@ export default {
       },
     };
   },
-  mounted() {
-    this.getUser();
-    this.getUserClocks();
-  },
   methods: {
-    async getUserClocks() {
-      await axios.get("http://localhost:4000/api/clocks/1").then((response) => {
-        this.userClocks = response.data.data;
-      });
-      this.fillDatasets();
+
+    getWorkingTimeWeek() {
+      let date = new Date(Date.now());
+      let dateMinus7 = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+      axios.get("http://localhost:4000/api/workingtimes/" + this.userid, { params: { start: dateMinus7, end: date }, header: 'Access-Control-Allow-Origin: *' })
+        .then(response => {
+          let data = response.data.data;
+          this.weekWorkingTimes = { "Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0 };
+          for (let i = 0; i < data.length; i++) {
+            let day = moment(data[i].start).format('dddd');
+            this.weekWorkingTimes[day] += new Date(data[i].end) - new Date(data[i].start);
+          }
+          console.log(this.weekWorkingTimes);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
     },
-    getUser() {
-      axios.get("http://localhost:4000/api/users/1").then((response) => {
-        this.username = response.data.data.username;
-        this.email = response.data.data.email;
-        this.userId = response.data.data.id;
-      });
-    },
-    fillDatasets() {
-      this.diffLastClock = moment().diff(
-        moment(this.userClocks[this.userClocks.length - 1].time)
-      );
-      console.log("test", this.diffLastClock);
-      this.doughnutData.datasets.data = [
-        this.diffLastClock,
-        28800000 - this.diffLastClock,
-      ];
-      console.log("toto", this.doughnutData.datasets.data);
+
+    generateFakeWorkingTime() {
+      const days = Math.floor(Math.random() * 99);
+      const hours = Math.floor(Math.random() * 23);
+
+      return days.toString() + "d, " + hours.toString() + "h";
     },
   },
+  mounted() {
+      this.generateFakeWorkingTime();
+      this.getWorkingTimeWeek();
+
+    },
 };
 </script>
 
@@ -103,7 +113,7 @@ export default {
         <FancyCard stripe="false" style="width: 50%">
           <template #header>Daily objective</template>
           <template #mainpart>
-            <DoughnutChart v-model="diffLastClock" :chartData="doughnutData" />
+            <DoughnutChart :chartData="doughnutData" />
           </template>
         </FancyCard>
         <FancyCard stripe="false" style="width: 50%">

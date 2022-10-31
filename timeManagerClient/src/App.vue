@@ -16,7 +16,7 @@ import WorkingTime from "./components/WorkingTime.vue";
     </SideBar>
     <div class="card-container">
       <div style="margin: 16px; display: flex; justify-content: space-between; width: 150vh;">
-        <ChartManager></ChartManager>
+        <ChartManager userid="1"></ChartManager>
       </div>
       <div style="margin: 16px; display: flex; justify-content: space-between; width: 150vh;">
         <WorkingTimes userid="1"></WorkingTimes>

@@ -16,7 +16,6 @@ import FancyButton from "./FancyButton.vue";
 
 export default {
     name: "WorkingTime",
-
     methods: {
         getWorkingTimes: function (id) {
             id == undefined ? id = this.userid : id = id; //ok
@@ -66,7 +65,6 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
-
         },
         delete: function (event) {
             event.preventDefault();
@@ -87,7 +85,6 @@ export default {
     },
     mounted() {
         this.getWorkingTimes();
-
     },
     data() {
         return {
@@ -102,7 +99,6 @@ export default {
     beforeUnmount() {
     },
 };
-
 </script>
 
 <template>
@@ -112,7 +108,7 @@ export default {
             <input type="number" v-model="workingtimeid" @change="this.getWorkingTimes($event.target.value)"
                 id="useridpicker" /> <span @click="this.getWorkingTimes()" style="cursor:pointer">&#x21bb;</span>
             <FancyButton color="gray" @click="this.showCreate = true">+</FancyButton>
-            <li v-for="workingtime in workingtimes" :key="workingtime.id">
+            <li v-for="workingtime in workingtimes" :key="workingtime.id" class="wt">
                 {{ workingtime.start }} - {{ workingtime.end }} <FancyButton @click="show(workingtime)"> Update
                 </FancyButton>
                 <FancyButton color="red" @click="this.showDeleteModal(workingtime)"> Delete </FancyButton>
@@ -151,9 +147,7 @@ export default {
         </form>
 
     </vue-final-modal>
-
 </template>
 
 <style scoped>
-
 </style>
