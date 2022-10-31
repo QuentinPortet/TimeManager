@@ -12,6 +12,7 @@ import FancyCard from "./FancyCard.vue";
 import { DoughnutChart, LineChart, BarChart } from "vue-chart-3";
 import { Chart, registerables } from "chart.js";
 import axios from "axios";
+// eslint-disable-next-line vue/prefer-import-from-vue, no-unused-vars
 import { parseStringStyle } from "@vue/shared";
 import moment from "moment";
 
