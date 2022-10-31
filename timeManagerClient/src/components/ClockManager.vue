@@ -71,17 +71,17 @@ export default {
         <div>
           Last clock:
           <span class="important">{{
-            this.lastTime == "" ? "none" : this.lastTime
+            lastTime == "" ? "none" : lastTime
           }}</span>
         </div>
         <div>
           clock is running :
           <span class="important">
-            {{ this.status }}
+            {{ status }}
           </span>
         </div>
         <div class="center">
-          <FancyButton @click="cloking">{{  this.status ? "clock out" : "clock in" }}</FancyButton>
+          <FancyButton @click="cloking">{{  status ? "clock out" : "clock in" }}</FancyButton>
         </div>
       </div>
     </template>
