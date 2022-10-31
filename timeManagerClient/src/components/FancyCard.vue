@@ -13,10 +13,10 @@ export default {
   <div class="card">
     <div v-if="stripe === true" class="fancy-stripe"></div>
     <div class="header">
-      <slot name="header">Oops, something happened</slot>
+      <slot name="header">Oops, something bad happened</slot>
     </div>
     <div class="content">
-      <slot name="mainpart">Oops, something happened</slot>
+      <slot name="mainpart">Oops, something bad happened</slot>
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@ export default {
   border-radius: 8px;
   box-shadow: 4px 4px 6px #11111166;
   padding-bottom: 8px;
-  max-width: 45vw;
+  max-width: 80vw;
   margin: 0px 0px 16px 0px;
 }
 
@@ -37,8 +37,8 @@ export default {
   border-top-right-radius: 8px;
   background: linear-gradient(
     323deg,
-    rgb(217, 255, 0) 0%,
-    rgba(13, 255, 134, 1) 100%
+    var(--color-secondary-shade) 0%,
+    var(--color-primary-shade) 100%
   );
   width: 100%;
   height: 16px;

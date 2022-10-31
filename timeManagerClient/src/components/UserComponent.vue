@@ -1,3 +1,12 @@
+<script setup>
+defineProps({
+  userid: {
+    type: String,
+    required: true,
+  },
+});
+</script>
+
 <script>
 import axios from "axios";
 import FancyButton from "./FancyButton.vue";
@@ -11,10 +20,13 @@ export default {
   data() {
     return {
       username: "",
-      email: "toto@epitech.eu",
+      email: "",
       userId: 0,
       userList: [],
       info: null,
+      showCreate: false,
+      showDelete: false,
+      showEdit: false,
     };
   },
   mounted() {
@@ -29,26 +41,35 @@ export default {
 
       return days.toString() + "d, " + hours.toString() + "h";
     },
-    createUser: function () {
+    createUser: function (event) {
+      event.preventDefault();
+      let username = document.getElementById("newUsername").value;
+      let email = document.getElementById("newEmail").value;
       axios
         .post("http://localhost:4000/api/users", {
-          username: "Titi",
-          email: "titi@epitech.eu",
+          username: username,
+          email: email,
         })
         .then((response) => (this.info = response));
       this.$toast.show(`Utilisateur créé`);
+      this.showCreate = false;
     },
-    updateUser: function () {
+    updateUser: function (event) {
+      event.preventDefault();
+      let username = document.getElementById("editUsername").value;
+      let email = document.getElementById("editEmail").value;
       axios
-        .put("http://localhost:4000/api/users/1", {
-          username: "Tutu",
-          email: "tutu@modified.eu",
+        .put("http://localhost:4000/api/users/1 ", {
+          username: username,
+          email: email,
         })
         .then((response) => (this.info = response));
       this.$toast.show(`Profil modifié`);
+      this.showEdit = false;
+      this.getUser();
     },
     getUser: function () {
-      axios.get("http://localhost:4000/api/users/5").then((response) => {
+      axios.get("http://localhost:4000/api/users/1").then((response) => {
         this.username = response.data.data.username;
         this.email = response.data.data.email;
         this.userId = response.data.data.id;
@@ -57,14 +78,15 @@ export default {
     getAllUsers: function () {
       axios.get("http://localhost:4000/api/users").then((response) => {
         this.userList = response.data.data;
-        console.log("list", this.userList);
       });
     },
-    deleteUser: function () {
+    deleteUser: function (event) {
+      event.preventDefault();
       axios
-        .delete("http://localhost:4000/api/users/" + "4")
+        .delete("http://localhost:4000/api/users/" + this.userid)
         .then((response) => (this.info = response));
       this.$toast.show(`Profil supprimé`);
+      this.showDelete = false;
     },
   },
 };
@@ -73,26 +95,18 @@ export default {
 <template>
   <div class="title">Users panel</div>
   <div class="content" style="margin: 16px">
-    You are currently logged in as <strong>{{ username }} </strong>.
+    You are currently logged in as <strong>{{ this.username }} </strong>.
     <br />
-    Your registered email address is <strong>{{ email }} </strong>.
+    Your registered email address is <strong>{{ this.email }} </strong>.
   </div>
   <div style="display: flex; justify-content: space-around; margin: 16px">
-    <FancyButton @click="updateUser"> Modifier mon profil </FancyButton>
-    <FancyButton
-      @click="deleteUser"
-      color="linear-gradient(323deg, rgba(107,0,0,1) 0%, rgba(154,17,0,1) 100%);"
-    >
-      Supprimer mon profil
+    <FancyButton @click="updateUser"> Edit my profile </FancyButton>
+    <FancyButton @click="deleteUser" color="danger">
+      Delete my profile
     </FancyButton>
   </div>
   <div style="display: flex; justify-content: space-around; margin: 16px">
-    <FancyButton
-      @click="createUser"
-      color="linear-gradient(323deg, rgba(0,170,119,1) 0%, rgba(0,156,154,1) 100%);"
-    >
-      Ajouter un nouvel utilisateur
-    </FancyButton>
+    <FancyButton @click="createUser"> Add a new user </FancyButton>
   </div>
   <div
     class="hidden-scrollbar"
@@ -112,6 +126,50 @@ export default {
       </FancyCard>
     </div>
   </div>
+  <vue-final-modal
+    v-model="showCreate"
+    classes="modal-container"
+    content-class="modal-content"
+    style="z-index: 2"
+  >
+    <span>Create new User</span>
+    <form>
+      <label>Username: </label>
+      <input id="newUsername" type="text" /><br />
+      <label>Email: </label>
+      <input id="newEmail" type="email" /><br />
+      <FancyButton @click="createUser($event)">Create</FancyButton>
+    </form>
+  </vue-final-modal>
+
+  <vue-final-modal
+    v-model="showDelete"
+    classes="modal-container"
+    content-class="modal-content"
+  >
+    <span>Delete your account ?</span>
+    <form>
+      <FancyButton color="green" @click="this.deleteUser($event)"
+        >Yes</FancyButton
+      >
+      <FancyButton color="red" @click="this.showDelete = false">No</FancyButton>
+    </form>
+  </vue-final-modal>
+
+  <vue-final-modal
+    v-model="showEdit"
+    classes="modal-container"
+    content-class="modal-content"
+  >
+    <span>Edit your account informations</span>
+    <form>
+      <input id="editUsername" type="text" v-model="username" /><br />
+      <input id="editEmail" type="email" v-model="email" /><br />
+      <FancyButton color="green" @click="updateUser($event)"
+        >Update</FancyButton
+      >
+    </form>
+  </vue-final-modal>
 </template>
 
 <style>

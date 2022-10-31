@@ -1,9 +1,9 @@
 <script setup>
 defineProps({
-    userid: {
-        type: String,
-        required: true,
-    },
+  userid: {
+    type: String,
+    required: true,
+  },
 });
 </script>
 
@@ -12,51 +12,69 @@ import axios from "axios";
 import FancyCard from "./FancyCard.vue";
 import FancyButton from "./FancyButton.vue";
 export default {
-    name: "ClockManager",
-    components: {
-        FancyCard,
-        FancyButton,
+  name: "ClockManager",
+  components: {
+    FancyCard,
+    FancyButton,
+  },
+  methods: {
+    clocking: function () {
+      axios
+        .post("http://localhost:4000/api/clocks/" + this.userid, {
+          time: new Date(),
+          status: true,
+        })
+        .then((response) => {
+          this.endDateTime = Date.now();
+          this.$toast.show(`Clocking registered`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     methods: {
         cloking: function () {
             axios.post('http://localhost:4000/api/clocks/' + this.userid, {
                 time:  new Date,
-                status: true,
+                status: (!this.status),
             })
                 .then(response => {
                     this.endDateTime = Date.now();
+                    this.getClock();
                 })
                 .catch(error => {
                     console.log(error);
                 });
-        }
-    },
-    data() {
-        return {
-            time: '',
-            status: false,
-        };
-    },
-    mounted() {
-        axios.get("http://localhost:4000/api/clocks/" + this.userid, { header: 'Access-Control-Allow-Origin: *' })
+        },
+        getClock: function (){
+          axios.get("http://localhost:4000/api/clocks/" + this.userid, { header: 'Access-Control-Allow-Origin: *' })
             .then(response => {
                 let data = response.data.data[0];
                 if (data.length == 0) {
                     this.time = '';
                 } else {
                     this.time = data.time;
+                    this.status = !this.status;
                 }
-                this.startDateTime = response.data.data[response.data.data.length - 1].start;
-                this.endDateTime = response.data.data[0].end;
+                this.lastTime = response.data.data[response.data.data.length - 1].time;
             })
             .catch(error => {
                 console.log(error);
             });
+        }
+    },
+    data() {
+        return {
+            lastTime: '',
+            status: false,
+        };
+    },
+    mounted() {
+        this.getClock();
     },
     beforeUnmount() {
     },
-};
-
+}
 </script>
 
 <template>
@@ -65,25 +83,23 @@ export default {
     <template #mainpart>
       <div>
         <div>
-          First clock:
+          Last clock:
           <span class="important">{{
-            this.startDateTime == "" ? "none" : this.startDateTime
+            this.lastTime == "" ? "none" : this.lastTime
           }}</span>
         </div>
         <div>
           clock is running :
           <span class="important">
-            {{ this.endDateTime == "" ? "yes" : "no" }}
+            {{ this.status }}
           </span>
         </div>
         <div class="center">
-          <FancyButton @click="cloking">Clock</FancyButton>
+          <FancyButton @click="cloking">{{  this.status ? "clock out" : "clock in" }}</FancyButton>
         </div>
       </div>
     </template>
   </FancyCard>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
