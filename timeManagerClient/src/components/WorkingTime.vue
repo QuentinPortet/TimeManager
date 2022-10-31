@@ -135,7 +135,7 @@ export default {
       <FancyButton color="gray" @click="this.showCreate = true">+</FancyButton>
       <li v-for="workingtime in workingtimes" :key="workingtime.id">
         {{ workingtime.start }} - {{ workingtime.end }}
-        <FancyButton @click="show(workingtime)"> Update </FancyButton>
+        <FancyButton @click="show(workingtime)"> Edit </FancyButton>
         <FancyButton color="red" @click="this.showDeleteModal(workingtime)">
           Delete
         </FancyButton>
@@ -167,7 +167,7 @@ export default {
             v-model="workingtime.end"
           /><br />
           <FancyButton color="green" @click="UpdateWorkingTime($event)">
-            Update
+            Edit
           </FancyButton>
         </form>
       </template>

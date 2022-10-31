@@ -3,7 +3,6 @@ import axios from "axios";
 import FancyCard from "./FancyCard.vue";
 import { DoughnutChart, LineChart, BarChart } from "vue-chart-3";
 import { Chart, registerables } from "chart.js";
-// eslint-disable-next-line no-unused-vars
 import moment from "moment";
 
 Chart.register(...registerables);
@@ -66,6 +65,12 @@ export default {
     this.getUser();
     this.getUserClocks();
   },
+  computed: {
+    doughData: function () {
+      console.log("pourquoi ça marche po", this.doughnutData);
+      return this.doughnutData;
+    },
+  },
   methods: {
     async getUserClocks() {
       await axios.get("http://localhost:4000/api/clocks/1").then((response) => {
@@ -89,7 +94,6 @@ export default {
         this.diffLastClock,
         28800000 - this.diffLastClock,
       ];
-      console.log("toto", this.doughnutData.datasets.data);
     },
   },
 };
@@ -100,13 +104,13 @@ export default {
     <template #header>Metrics</template>
     <template #mainpart>
       <div style="display: flex; justify-content: space-around">
-        <FancyCard stripe="false" style="width: 50%">
+        <FancyCard :stripe="false" style="width: 50%">
           <template #header>Daily objective</template>
           <template #mainpart>
-            <DoughnutChart v-model="diffLastClock" :chartData="doughnutData" />
+            <DoughnutChart :chartData="doughData" />
           </template>
         </FancyCard>
-        <FancyCard stripe="false" style="width: 50%">
+        <FancyCard :stripe="false" style="width: 50%">
           <template #header>Exhaustion</template>
           <template #mainpart>
             <BarChart :chartData="barsData" />
@@ -114,7 +118,7 @@ export default {
         </FancyCard>
       </div>
       <div style="display: flex; justify-content: space-around">
-        <FancyCard stripe="false" style="width: 100%">
+        <FancyCard :stripe="false" style="width: 100%">
           <template #header>Work time per day</template>
           <template #mainpart>
             <LineChart :chartData="lineData" />

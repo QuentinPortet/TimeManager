@@ -64,7 +64,7 @@ export default {
           email: email,
         })
         .then((response) => (this.info = response));
-      this.$toast.show(`Profil modifié`);
+      this.$toast.show(`Profile edited`);
       this.showEdit = false;
       this.getUser();
     },
@@ -104,9 +104,9 @@ export default {
     Your registered email address is <strong>{{ email }} </strong>.
   </div>
   <div style="display: flex; justify-content: space-around; margin: 16px">
-    <FancyButton @click="showEdit = true"> Modifier mon profil </FancyButton>
+    <FancyButton @click="showEdit = true"> Edit profile </FancyButton>
     <FancyButton color="danger" @click="showDelete = true">
-      Supprimer mon profil
+      Delete profile
     </FancyButton>
   </div>
   <div style="display: flex; justify-content: space-around; margin: 16px">
@@ -114,7 +114,7 @@ export default {
       @click="showCreate = true"
       color="linear-gradient(323deg, rgba(0,170,119,1) 0%, rgba(0,156,154,1) 100%);"
     >
-      Ajouter un nouvel utilisateur
+      Add new user
     </FancyButton>
   </div>
   <div
@@ -122,7 +122,7 @@ export default {
     style="padding: 16px; max-height: 36vh; overflow: scroll"
   >
     <div v-for="user of userList" v-bind:key="user.id">
-      <FancyCard stripe="false">
+      <FancyCard :stripe="false">
         <template #header>{{ user.username }}</template>
         <template #mainpart>
           <div style="display: flex">
@@ -188,13 +188,13 @@ export default {
     content-class="modal-content"
   >
     <FancyCard>
-      <template #header>Edit your account informations</template>
+      <template #header>Edit your account information</template>
       <template #mainpart>
         <form>
           <input id="editUsername" type="text" v-model="username" /><br />
           <input id="editEmail" type="email" v-model="email" /><br />
           <FancyButton color="green" @click="updateUser($event)"
-            >Update</FancyButton
+            >Edit</FancyButton
           >
         </form>
       </template>
