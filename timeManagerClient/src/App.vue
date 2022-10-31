@@ -23,7 +23,7 @@ import WorkingTime from "./components/WorkingTime.vue";
           width: 150vh;
         "
       >
-        <ChartManager></ChartManager>
+        <ChartManager userid="1"></ChartManager>
       </div>
       <div
         style="

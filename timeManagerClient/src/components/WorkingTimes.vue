@@ -46,7 +46,7 @@ export default {
     <FancyCard>
         <template #header>Working Times</template>
         <template #mainpart>
-            <li v-for="workingtime in workingTimes" :key="workingtime.id">
+            <li v-for="workingtime in workingTimes" :key="workingtime.id" class="wt">
                 {{workingtime.start}} - {{workingtime.end}}
             </li>
         </template>
