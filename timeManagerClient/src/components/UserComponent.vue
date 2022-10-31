@@ -97,9 +97,9 @@ export default {
 <template>
   <div class="title">Users panel</div>
   <div class="content" style="margin: 16px">
-    You are currently logged in as <strong>{{ this.username }} </strong>.
+    You are currently logged in as <strong>{{ username }} </strong>.
     <br />
-    Your registered email address is <strong>{{ this.email }} </strong>.
+    Your registered email address is <strong>{{ email }} </strong>.
   </div>
   <div style="display: flex; justify-content: space-around; margin: 16px">
     <FancyButton @click="this.showEdit = true"> Modifier mon profil </FancyButton>

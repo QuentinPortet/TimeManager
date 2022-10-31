@@ -124,12 +124,12 @@ export default {
     <vue-final-modal v-model="showModal" classes="modal-container" content-class="modal-content">
         <span>Update it</span>
         <div>
-            For working time id: {{ this.workingtime.id }}
+            For working time id: {{ workingtime.id }}
         </div>
         <form id="updateForm">
-            <input hidden name="id" type="text" v-model='this.workingtime.id'><br>
-            <input id="newStartUpdate" name="start" type="datetime-local" v-model='this.workingtime.start'><br>
-            <input id="newEndUpdate" name="end" type="datetime-local" v-model='this.workingtime.end'><br>
+            <input hidden name="id" type="text" v-model='workingtime.id'><br>
+            <input id="newStartUpdate" name="start" type="datetime-local" v-model='workingtime.start'><br>
+            <input id="newEndUpdate" name="end" type="datetime-local" v-model='workingtime.end'><br>
             <FancyButton color="green" @click="this.UpdateWorkingTime($event)"> Update </FancyButton>
         </form>
     </vue-final-modal>
