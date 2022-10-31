@@ -28,7 +28,7 @@ export default {
           this.endDateTime = Date.now();
           this.getClock();
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     },
@@ -62,8 +62,10 @@ export default {
   mounted() {
     this.getClock();
   },
-  beforeUnmount() {},
+  beforeUnmount() {
+  },
 };
+
 </script>
 
 <template>
@@ -74,7 +76,7 @@ export default {
         <div>
           Last clock:
           <span class="important">{{
-            this.lastTime == "" ? "none" : this.lastTime
+              this.lastTime == "" ? "none" : this.lastTime
           }}</span>
         </div>
         <div>
@@ -93,4 +95,6 @@ export default {
   </FancyCard>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>
