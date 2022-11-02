@@ -21,9 +21,32 @@ export default {
       userId: 0,
       userClocks: [],
       diffLastClock: 0,
-      doughData: {
+      barsData: {
         labels: ["January", "February", "March"],
-        datasets: [{ data: [40, 20, 12] }],
+        datasets: [
+          {
+            data: [40, 20, 12],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+            ],
+          },
+        ],
+      },
+      doughData: {
+        labels: ["Red", "Blue", "Yellow"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [300, 50, 100],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+            ],
+          },
+        ],
       },
     };
   },
@@ -45,7 +68,7 @@ export default {
       });
     },
     changeData() {
-      this.doughData.datasets[0].data = [10, 10, 10];
+      this.doughData.datasets[0].data = [20, 150, 20];
     },
   },
 };
@@ -59,13 +82,13 @@ export default {
         <FancyCard :stripe="false" style="width: 50%">
           <template #header>Daily objective</template>
           <template #mainpart>
-            <DoughnutChart></DoughnutChart>
+            <DoughnutChart :chartData="doughData"></DoughnutChart>
           </template>
         </FancyCard>
         <FancyCard :stripe="false">
           <template #header>Cool bars</template>
           <template #mainpart>
-            <BarChart :chartData="doughData"></BarChart>
+            <BarChart :chartData="barsData"></BarChart>
             <button @click="changeData"></button>
           </template>
         </FancyCard>
