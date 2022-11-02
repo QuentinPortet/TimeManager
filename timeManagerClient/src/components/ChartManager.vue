@@ -1,3 +1,12 @@
+<script setup>
+defineProps({
+  userid: {
+    type: String,
+    required: true,
+  },
+});
+</script>
+
 <script>
 import axios from "axios";
 import moment from "moment";
@@ -5,6 +14,7 @@ import FancyCard from "./FancyCard.vue";
 import BarChart from "./BarChart.vue";
 import DoughnutChart from "./DoughnutChart.vue";
 import LineChart from "./LineChart.vue";
+import { parseStringStyle } from "@vue/shared";
 
 export default {
   components: {
@@ -25,6 +35,14 @@ export default {
         labels: ["January", "February", "March"],
         datasets: [{ data: [40, 20, 12] }],
       },
+      lineData: {
+        labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        datasets: [{ data: [40, 20, 12] }],
+      },
+      barData: {
+        labels: ["January", "February", "March"],
+        datasets: [{ data: [40, 90, 12] }],
+      },
     };
   },
   mounted() {
@@ -44,8 +62,43 @@ export default {
         this.userId = response.data.data.id;
       });
     },
+    getWorkingTimeWeek() {
+      let date = new Date(Date.now());
+      let dateMinus7 = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+      console.log(dateMinus7)
+      console.log(date)
+      axios
+        .get("http://localhost:4000/api/workingtimes/" + this.userid, {
+          params: { start: dateMinus7, end: date },
+          header: "Access-Control-Allow-Origin: *",
+        })
+        .then((response) => {
+          let data = response.data.data;
+          this.weekWorkingTimes = {
+            Monday: 0,
+            Tuesday: 0,
+            Wednesday: 0,
+            Thursday: 0,
+            Friday: 0,
+            Saturday: 0,
+            Sunday: 0,
+          };
+          console.log(data.length);
+          for (let i = 0; i < data.length; i++) {
+            let day = moment(data[i].start).format("dddd");
+            console.log((new Date(data[i].end) - new Date(data[i].start)));
+            this.weekWorkingTimes[day] += (new Date(data[i].end) - new Date(data[i].start));
+            
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     changeData() {
-      this.doughData.datasets[0].data = [10, 10, 10];
+      this.getWorkingTimeWeek();
+      this.doughData.datasets[0].data = [30, 10, 10];
+      this.lineData.datasets[0].data = [this.weekWorkingTimes.Monday, this.weekWorkingTimes.Tuesday, this.weekWorkingTimes.Wednesday, this.weekWorkingTimes.Thursday, this.weekWorkingTimes.Friday, this.weekWorkingTimes.Saturday, this.weekWorkingTimes.Sunday];
     },
   },
 };
@@ -59,13 +112,13 @@ export default {
         <FancyCard :stripe="false" style="width: 50%">
           <template #header>Daily objective</template>
           <template #mainpart>
-            <DoughnutChart></DoughnutChart>
+            <DoughnutChart :chartData="doughData"></DoughnutChart>
           </template>
         </FancyCard>
         <FancyCard :stripe="false">
           <template #header>Cool bars</template>
           <template #mainpart>
-            <BarChart :chartData="doughData"></BarChart>
+            <BarChart :chartData="barData"></BarChart>
             <button @click="changeData"></button>
           </template>
         </FancyCard>
@@ -74,7 +127,7 @@ export default {
         <FancyCard :stripe="false" style="width: 100%">
           <template #header>Work time per day</template>
           <template #mainpart>
-            <LineChart></LineChart>
+            <LineChart :chartData="lineData"></LineChart>
           </template>
         </FancyCard>
       </div>
