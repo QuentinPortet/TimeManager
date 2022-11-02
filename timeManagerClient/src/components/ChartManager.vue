@@ -62,19 +62,18 @@ export default {
         this.userId = response.data.data.id;
       });
     },
-    getWorkingTimeWeek() {
+    async getWorkingTimeWeek() {
       let date = new Date(Date.now());
       let dateMinus7 = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-      console.log(dateMinus7)
-      console.log(date)
-      axios
-        .get("http://localhost:4000/api/workingtimes/" + this.userid, {
-          params: { start: dateMinus7, end: date },
-          header: "Access-Control-Allow-Origin: *",
-        })
-        .then((response) => {
-          let data = response.data.data;
-          this.weekWorkingTimes = {
+      try {
+        let res = await axios
+          .get("http://localhost:4000/api/workingtimes/" + this.userid, {
+            params: { start: dateMinus7, end: date },
+            header: "Access-Control-Allow-Origin: *",
+          })
+        if (res.status == 200) {
+          let data = res.data.data;
+          let weekWork = {
             Monday: 0,
             Tuesday: 0,
             Wednesday: 0,
@@ -87,18 +86,20 @@ export default {
           for (let i = 0; i < data.length; i++) {
             let day = moment(data[i].start).format("dddd");
             console.log((new Date(data[i].end) - new Date(data[i].start)));
-            this.weekWorkingTimes[day] += (new Date(data[i].end) - new Date(data[i].start));
-            
+            weekWork[day] += (new Date(data[i].end) - new Date(data[i].start));
           }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          return weekWork;
+        }
+      } catch (err) {
+        console.log(err);
+      }
     },
     changeData() {
-      this.getWorkingTimeWeek();
+      this.getWorkingTimeWeek().then((weekWork) => {
+        console.log(weekWork);
+        this.lineData.datasets[0].data = [weekWork.Monday, weekWork.Tuesday, weekWork.Wednesday, weekWork.Thursday, weekWork.Friday, weekWork.Saturday, weekWork.Sunday];
+      })
       this.doughData.datasets[0].data = [30, 10, 10];
-      this.lineData.datasets[0].data = [this.weekWorkingTimes.Monday, this.weekWorkingTimes.Tuesday, this.weekWorkingTimes.Wednesday, this.weekWorkingTimes.Thursday, this.weekWorkingTimes.Friday, this.weekWorkingTimes.Saturday, this.weekWorkingTimes.Sunday];
     },
   },
 };
