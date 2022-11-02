@@ -15,6 +15,10 @@ import BarChart from "./BarChart.vue";
 import DoughnutChart from "./DoughnutChart.vue";
 import LineChart from "./LineChart.vue";
 import { parseStringStyle } from "@vue/shared";
+import {Chart, Filler} from 'chart.js';
+
+Chart.register(Filler);
+
 
 export default {
   components: {
@@ -79,6 +83,7 @@ export default {
             backgroundColor: ["#09a3a120"],
             borderColor: ["#09a3a1"],
             borderWidth: 1,
+            fill: true,
           },
         ],
       },
