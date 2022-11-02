@@ -72,7 +72,14 @@ export default {
           "Saturday",
           "Sunday",
         ],
-        datasets: [{ data: [40, 20, 12] }],
+        datasets: [
+          {
+            data: [40, 20, 12],
+            backgroundColor: ["#09a3a120"],
+            borderColor: ["#09a3a1"],
+            borderWidth: 1,
+          },
+        ],
       },
     };
   },
@@ -122,8 +129,8 @@ export default {
             console.log(new Date(data[i].end) - new Date(data[i].start));
             weekWork[day] += new Date(data[i].end) - new Date(data[i].start);
           }
-          for(let day in weekWork){
-            weekWork[day] = weekWork[day]/1000/60/60;
+          for (let day in weekWork) {
+            weekWork[day] = weekWork[day] / 1000 / 60 / 60;
           }
           return weekWork;
         }
@@ -175,8 +182,8 @@ export default {
             weekWork[Object.keys(weekWork)[i]] /=
               dayCounter[Object.keys(dayCounter)[i]];
           }
-          for(let day in weekWork){
-            weekWork[day] = weekWork[day]/1000/60/60;
+          for (let day in weekWork) {
+            weekWork[day] = weekWork[day] / 1000 / 60 / 60;
           }
           return weekWork;
         }
@@ -230,7 +237,6 @@ export default {
           <template #header>Cool bars</template>
           <template #mainpart>
             <BarChart :chartData="barsData"></BarChart>
-            <button @click="changeData"></button>
           </template>
         </FancyCard>
       </div>
