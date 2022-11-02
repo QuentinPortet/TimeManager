@@ -125,6 +125,9 @@ export default {
             console.log(new Date(data[i].end) - new Date(data[i].start));
             weekWork[day] += new Date(data[i].end) - new Date(data[i].start);
           }
+          for(let day in weekWork){
+            weekWork[day] = weekWork[day]/1000/60/60;
+          }
           return weekWork;
         }
       } catch (err) {
@@ -171,6 +174,9 @@ export default {
           }
           for (let i = 0; i < 7; i++) {
             weekWork[Object.keys(weekWork)[i]] /= dayCounter[Object.keys(dayCounter)[i]];
+          }
+          for(let day in weekWork){
+            weekWork[day] = weekWork[day]/1000/60/60;
           }
           return weekWork;
         }
