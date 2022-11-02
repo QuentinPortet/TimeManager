@@ -74,6 +74,7 @@ export default {
         ],
         datasets: [
           {
+            label: "Quelque chose",
             data: [40, 20, 12],
             backgroundColor: ["#09a3a120"],
             borderColor: ["#09a3a1"],
