@@ -32,7 +32,15 @@ export default {
       userClocks: [],
       diffLastClock: 0,
       barsData: {
-        labels: ["January", "February", "March"],
+        labels: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ],
         datasets: [
           {
             label: "Quelque chose",
@@ -120,34 +128,22 @@ export default {
         console.log(err);
       }
     },
-    changeData() {
-      this.getWorkingTimeWeek().then((weekWork) => {
-        console.log(weekWork);
-        this.lineData.datasets[0].data = [
-          weekWork.Monday,
-          weekWork.Tuesday,
-          weekWork.Wednesday,
-          weekWork.Thursday,
-          weekWork.Friday,
-          weekWork.Saturday,
-          weekWork.Sunday,
-        ];
-      });
-      this.doughData.datasets[0].data = [30, 10];
-    },
     async getWorkingTimeEver() {
       let date = new Date(Date.now());
-      let dateMinus7 = new Date(Date.now(0));
+      let epoch0 = new Date(0);
+      console.log(epoch0);
+      console.log(date);
       try {
         let res = await axios.get(
           "http://localhost:4000/api/workingtimes/" + this.userid,
           {
-            params: { start: dateMinus7, end: date },
+            params: { start: epoch0, end: date },
             header: "Access-Control-Allow-Origin: *",
           }
         );
         if (res.status == 200) {
           let data = res.data.data;
+          console.log(res);
           let dayCounter = {
             Monday: 0,
             Tuesday: 0,
@@ -169,13 +165,45 @@ export default {
           console.log(data.length);
           for (let i = 0; i < data.length; i++) {
             let day = moment(data[i].start).format("dddd");
+            dayCounter[day] += 1;
             weekWork[day] += new Date(data[i].end) - new Date(data[i].start);
+          }
+          for (let i = 0; i < 7; i++) {
+            weekWork[Object.keys(weekWork)[i]] /=
+              dayCounter[Object.keys(dayCounter)[i]];
           }
           return weekWork;
         }
       } catch (err) {
         console.log(err);
       }
+    },
+    changeData() {
+      this.getWorkingTimeWeek();
+      this.getWorkingTimeWeek().then((weekWork) => {
+        this.lineData.datasets[0].data = [
+          weekWork.Monday,
+          weekWork.Tuesday,
+          weekWork.Wednesday,
+          weekWork.Thursday,
+          weekWork.Friday,
+          weekWork.Saturday,
+          weekWork.Sunday,
+        ];
+      });
+      this.getWorkingTimeEver().then((weekWork) => {
+        console.log(weekWork);
+        this.barsData.datasets[0].data = [
+          weekWork.Monday,
+          weekWork.Tuesday,
+          weekWork.Wednesday,
+          weekWork.Thursday,
+          weekWork.Friday,
+          weekWork.Saturday,
+          weekWork.Sunday,
+        ];
+      });
+      this.doughData.datasets[0].data = [30, 10];
     },
   },
 };
