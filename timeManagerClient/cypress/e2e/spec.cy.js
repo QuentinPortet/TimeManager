@@ -51,7 +51,6 @@ describe('empty spec', () => {
     const newbutton_value =cy.get('#clock_button');
     expect(clock_is_running).not.to.equal(newclock);
     expect(button_value).not.to.equal(newbutton_value);
-
   })
   it('working times', () => {
     cy.visit('http://localhost:5173')
@@ -71,10 +70,14 @@ describe('empty spec', () => {
     cy.get('#updateForm > .fancy-button').click();
     const newworkingtime = cy.get(':nth-child(2) > .content > :nth-child(4)');
     expect(workingtime).not.to.equal(newworkingtime);
-
     cy.get(':nth-child(4) > :nth-child(2)').click();
     cy.get('.content > div > .fancy-button-danger').click();
     const deletedworkingtime = cy.get(':nth-child(2) > .content > :nth-child(4)');
     expect(workingtime).not.to.equal(deletedworkingtime);
+  })
+  it('check if chart component', () => {
+    cy.visit('http://localhost:5173')
+    cy.wait(500)
+    cy.get('.card-container > :nth-child(1) > :nth-child(1)').should('be.visible')
   })
 })
