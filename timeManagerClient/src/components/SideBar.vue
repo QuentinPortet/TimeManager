@@ -11,8 +11,6 @@
   height: 100vh;
   width: 380px;
   box-shadow: 2px 2px 6px #11111166;
-  position: -webkit-sticky;
-  position: sticky;
   top: 0;
 }
 </style>

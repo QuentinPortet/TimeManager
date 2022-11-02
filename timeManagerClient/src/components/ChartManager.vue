@@ -30,6 +30,7 @@ export default {
       email: "",
       userId: 0,
       userClocks: [],
+      lastClock: null,
       diffLastClock: 0,
       barsData: {
         labels: [
@@ -43,7 +44,7 @@ export default {
         ],
         datasets: [
           {
-            label: "Quelque chose",
+            label: "Work time",
             data: [40, 20, 12],
             backgroundColor: ["#09a3a120"],
             borderColor: ["#09a3a1"],
@@ -93,6 +94,12 @@ export default {
     async getUserClocks() {
       await axios.get("http://localhost:4000/api/clocks/1").then((response) => {
         this.userClocks = response.data.data;
+        this.lastClock = this.userClocks[this.userClocks.length - 1].time;
+        this.diffLastClock = moment().diff(moment(this.lastClock));
+        this.doughData.datasets[0].data = [
+          this.diffLastClock,
+          28800000 - this.diffLastClock,
+        ];
       });
     },
     getUser() {
@@ -193,7 +200,6 @@ export default {
       }
     },
     changeData() {
-      this.getWorkingTimeWeek();
       this.getWorkingTimeWeek().then((weekWork) => {
         this.lineData.datasets[0].data = [
           weekWork.Monday,
@@ -217,7 +223,6 @@ export default {
           weekWork.Sunday,
         ];
       });
-      this.doughData.datasets[0].data = [30, 10];
     },
   },
 };
@@ -235,7 +240,7 @@ export default {
           </template>
         </FancyCard>
         <FancyCard :stripe="false">
-          <template #header>Cool bars</template>
+          <template #header>Average work time per day</template>
           <template #mainpart>
             <BarChart :chartData="barsData"></BarChart>
           </template>
