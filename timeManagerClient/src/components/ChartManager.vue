@@ -44,16 +44,14 @@ export default {
         ],
       },
       doughData: {
-        labels: ["Red", "Blue", "Yellow"],
+        labels: ["Red", "Blue"],
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
-            ],
+            data: [50, 300],
+            backgroundColor: ["#0dff8620", "#09a3a120"],
+            borderColor: ["#0dff8620", "#09a3a120"],
+            borderWidth: 1,
           },
         ],
       },
@@ -135,7 +133,7 @@ export default {
           weekWork.Sunday,
         ];
       });
-      this.doughData.datasets[0].data = [30, 10, 10];
+      this.doughData.datasets[0].data = [30, 10];
     },
   },
 };
