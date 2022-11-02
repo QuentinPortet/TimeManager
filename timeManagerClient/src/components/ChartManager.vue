@@ -44,13 +44,12 @@ export default {
         ],
       },
       doughData: {
-        labels: ["Red", "Blue"],
+        labels: ["Done", "Remaining"],
         datasets: [
           {
-            label: "My First Dataset",
             data: [50, 300],
             backgroundColor: ["#0dff8620", "#09a3a120"],
-            borderColor: ["#0dff8620", "#09a3a120"],
+            borderColor: ["#0dff86", "#09a3a1"],
             borderWidth: 1,
           },
         ],
@@ -72,6 +71,7 @@ export default {
   mounted() {
     this.getUser();
     this.getUserClocks();
+    this.changeData();
   },
   methods: {
     async getUserClocks() {
@@ -134,6 +134,48 @@ export default {
         ];
       });
       this.doughData.datasets[0].data = [30, 10];
+    },
+    async getWorkingTimeEver() {
+      let date = new Date(Date.now());
+      let dateMinus7 = new Date(Date.now(0));
+      try {
+        let res = await axios.get(
+          "http://localhost:4000/api/workingtimes/" + this.userid,
+          {
+            params: { start: dateMinus7, end: date },
+            header: "Access-Control-Allow-Origin: *",
+          }
+        );
+        if (res.status == 200) {
+          let data = res.data.data;
+          let dayCounter = {
+            Monday: 0,
+            Tuesday: 0,
+            Wednesday: 0,
+            Thursday: 0,
+            Friday: 0,
+            Saturday: 0,
+            Sunday: 0,
+          };
+          let weekWork = {
+            Monday: 0,
+            Tuesday: 0,
+            Wednesday: 0,
+            Thursday: 0,
+            Friday: 0,
+            Saturday: 0,
+            Sunday: 0,
+          };
+          console.log(data.length);
+          for (let i = 0; i < data.length; i++) {
+            let day = moment(data[i].start).format("dddd");
+            weekWork[day] += new Date(data[i].end) - new Date(data[i].start);
+          }
+          return weekWork;
+        }
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };
