@@ -20,7 +20,6 @@ export default {
             .then(response => {
 
                 this.workingTimes = response.data.data;
-                console.log(response.data.data);
                 
             })
             .catch(error => {

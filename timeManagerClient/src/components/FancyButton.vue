@@ -18,7 +18,7 @@ export default {
 <style>
 .fancy-button {
   background: var(--color-primary-shade);
-  min-width: 150px;
+  min-width: 110px;
   height: 32px;
   border-radius: 8px;
   border-color: transparent;
@@ -37,7 +37,7 @@ export default {
 }
 .fancy-button-danger {
   background: var(--color-danger-shade);
-  min-width: 150px;
+  min-width: 110px;
   height: 32px;
   border-radius: 8px;
   border-color: transparent;

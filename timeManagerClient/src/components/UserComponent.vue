@@ -72,7 +72,6 @@ export default {
       axios
         .get("http://localhost:4000/api/users/" + this.userid)
         .then((response) => {
-          console.log(response.data.data);
           this.username = response.data.data.username;
           this.email = response.data.data.email;
           this.userId = response.data.data.id;
