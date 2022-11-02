@@ -20,7 +20,10 @@
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 
-  
+  --color-primary: #09a3a1;
+  --color-primary-shade: #068684;
+  --color-primary-transparent: #09a3a140;
+
   --color-secondary: #0dff86;
   --color-secondary-shade: #00af58;
 
@@ -41,10 +44,6 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
-
-  --color-primary: #09a3a1;
-  --color-primary-shade: #068684;
-  --color-primary-transparent: #09a3a140;
   height: 100%;
 }
 

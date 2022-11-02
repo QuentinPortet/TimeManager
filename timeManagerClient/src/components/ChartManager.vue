@@ -25,12 +25,11 @@ export default {
         labels: ["January", "February", "March"],
         datasets: [
           {
+            label: "Quelque chose",
             data: [40, 20, 12],
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
-            ],
+            backgroundColor: ["#09a3a120"],
+            borderColor: ["#09a3a1"],
+            borderWidth: 1,
           },
         ],
       },
