@@ -121,7 +121,6 @@ export default {
     },
   },
   mounted() {
-    this.generateFakeWorkingTime();
     this.getWorkingTimeWeek();
   },
 };

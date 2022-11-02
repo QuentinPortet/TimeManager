@@ -81,7 +81,7 @@ export default {
           </span>
         </div>
         <div class="center">
-          <FancyButton @click="cloking">{{  status ? "clock out" : "clock in" }}</FancyButton>
+          <FancyButton id="clock_button" @click="cloking">{{  status ? "clock out" : "clock in" }}</FancyButton>
         </div>
       </div>
     </template>
