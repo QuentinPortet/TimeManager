@@ -36,7 +36,7 @@ defmodule ApiWeb.WorkingtimeController do
     render(conn, "show.json", workingtime: workingtime)
   end
 
-  def showByParams(conn, %{"userID" => id, "start" => start, "end" => stop}) do
+  def showByUser(conn, %{"userID" => id, "start" => start, "end" => stop}) do
     workingtimes = Accounts.get_workingtimes_by_params(id, start, stop)
     render(conn, "index.json", workingtimes: workingtimes)
   end

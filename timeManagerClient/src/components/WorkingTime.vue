@@ -25,7 +25,6 @@ export default {
         })
         .then((response) => {
           this.workingtimes = response.data.data;
-          console.log(response.data.data);
         })
         .catch((error) => {
           console.log(error);
@@ -37,7 +36,6 @@ export default {
       wt.end = wt.end.replace("T", " ");
       wt.start = wt.start.replace("Z", "");
       wt.end = wt.end.replace("Z", "");
-      console.log(wt.start);
       this.workingtime = wt;
     },
     UpdateWorkingTime: function (event) {
