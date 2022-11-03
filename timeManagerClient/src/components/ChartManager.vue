@@ -14,11 +14,9 @@ import FancyCard from "./FancyCard.vue";
 import BarChart from "./BarChart.vue";
 import DoughnutChart from "./DoughnutChart.vue";
 import LineChart from "./LineChart.vue";
-import { parseStringStyle } from "@vue/shared";
-import {Chart, Filler} from 'chart.js';
+import { Chart, Filler } from "chart.js";
 
 Chart.register(Filler);
-
 
 export default {
   components: {
@@ -60,7 +58,7 @@ export default {
         labels: ["Done", "Remaining"],
         datasets: [
           {
-            data: [50, 300],
+            data: [100, 0],
             backgroundColor: ["#0dff8620", "#09a3a120"],
             borderColor: ["#0dff86", "#09a3a1"],
             borderWidth: 1,
@@ -136,10 +134,8 @@ export default {
             Saturday: 0,
             Sunday: 0,
           };
-          console.log(data.length);
           for (let i = 0; i < data.length; i++) {
             let day = moment(data[i].start).format("dddd");
-            console.log(new Date(data[i].end) - new Date(data[i].start));
             weekWork[day] += new Date(data[i].end) - new Date(data[i].start);
           }
           for (let day in weekWork) {
@@ -154,8 +150,6 @@ export default {
     async getWorkingTimeEver() {
       let date = new Date(Date.now());
       let epoch0 = new Date(0);
-      console.log(epoch0);
-      console.log(date);
       try {
         let res = await axios.get(
           "http://localhost:4000/api/workingtimes/" + this.userid,
@@ -166,7 +160,6 @@ export default {
         );
         if (res.status == 200) {
           let data = res.data.data;
-          console.log(res);
           let dayCounter = {
             Monday: 0,
             Tuesday: 0,
@@ -185,7 +178,6 @@ export default {
             Saturday: 0,
             Sunday: 0,
           };
-          console.log(data.length);
           for (let i = 0; i < data.length; i++) {
             let day = moment(data[i].start).format("dddd");
             dayCounter[day] += 1;
@@ -217,7 +209,6 @@ export default {
         ];
       });
       this.getWorkingTimeEver().then((weekWork) => {
-        console.log(weekWork);
         this.barsData.datasets[0].data = [
           weekWork.Monday,
           weekWork.Tuesday,

@@ -35,12 +35,6 @@ export default {
     this.userList.reverse();
   },
   methods: {
-    generateFakeWorkingTime() {
-      const days = Math.floor(Math.random() * 99);
-      const hours = Math.floor(Math.random() * 23);
-
-      return days.toString() + "d, " + hours.toString() + "h";
-    },
     createUser: function (event) {
       event.preventDefault();
       let username = document.getElementById("newUsername").value;
@@ -118,7 +112,7 @@ export default {
   </div>
   <div
     class="hidden-scrollbar"
-    style="padding: 16px; max-height: 36vh; overflow: scroll"
+    style="padding: 16px; max-height: 24vh; overflow: scroll"
   >
     <div v-for="user of userList" v-bind:key="user.id">
       <FancyCard :stripe="false">
@@ -128,7 +122,6 @@ export default {
             <div style="width: 45%">
               {{ user.email }}
             </div>
-            <div>Total worktime: {{ generateFakeWorkingTime() }}</div>
           </div>
         </template>
       </FancyCard>
@@ -160,7 +153,7 @@ export default {
     content-class="modal-content"
   >
     <FancyCard>
-      <template #header>Delete your account ?</template>
+      <template #header>Delete your account?</template>
       <template #mainpart>
         <form
           style="
