@@ -2,9 +2,8 @@
 import UserComponent from "./components/UserComponent.vue";
 import SideBar from "./components/SideBar.vue";
 import ClockManager from "./components/ClockManager.vue";
-import WorkingTimes from "./components/WorkingTimes.vue";
 import ChartManager from "./components/ChartManager.vue";
-import WorkingTime from "./components/WorkingTime.vue";
+import WorkingTimes from "./components/WorkingTimes.vue";
 </script>
 
 <template>
@@ -19,8 +18,8 @@ import WorkingTime from "./components/WorkingTime.vue";
         style="
           margin: 16px;
           display: flex;
-          justify-content: space-between;
-          width: 150vh;
+          justify-content: space-around;
+          width: 100%;
         "
       >
         <ChartManager userid="1"></ChartManager>
@@ -29,12 +28,11 @@ import WorkingTime from "./components/WorkingTime.vue";
         style="
           margin: 16px;
           display: flex;
-          justify-content: space-between;
-          width: 150vh;
+          justify-content: space-around;
+          width: 100%;
         "
       >
-        <WorkingTimes userid="1"></WorkingTimes>
-        <WorkingTime userid="1"></WorkingTime>
+        <WorkingTimes :userid="1"></WorkingTimes>
       </div>
     </div>
   </div>
