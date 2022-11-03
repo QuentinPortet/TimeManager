@@ -11,7 +11,7 @@ export default {
 
 <template>
   <button :class="color === 'danger' ? 'fancy-button-danger' : 'fancy-button'">
-    <slot>Oops</slot>
+    <slot>Oops, something went wrong</slot>
   </button>
 </template>
 

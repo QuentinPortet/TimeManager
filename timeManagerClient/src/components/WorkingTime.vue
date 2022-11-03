@@ -1,5 +1,9 @@
 <script setup>
 defineProps({
+  wtData: {
+    type: Object,
+    required: true,
+  },
   userid: {
     type: String,
     required: true,
@@ -11,25 +15,15 @@ defineProps({
 import axios from "axios";
 import FancyCard from "./FancyCard.vue";
 import FancyButton from "./FancyButton.vue";
+import moment from "moment";
 
 export default {
   name: "WorkingTime",
-
+  components: {
+    FancyCard,
+    FancyButton,
+  },
   methods: {
-    getWorkingTimes: function (id) {
-      id == undefined ? (id = this.userid) : (id = id); //ok
-      axios
-        .get("http://localhost:4000/api/workingtimes/" + id, {
-          params: { start: new Date(0), end: new Date(Date.now()) },
-          header: "Access-Control-Allow-Origin: *",
-        })
-        .then((response) => {
-          this.workingtimes = response.data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     show: function (wt) {
       this.showModal = true;
       wt.start = wt.start.replace("T", " ");
@@ -44,35 +38,11 @@ export default {
       let end = document.getElementById("newEndUpdate").value;
       axios
         .put(
-          "http://localhost:4000/api/workingtimes/" + this.workingtime.id,
+          "http://localhost:4000/api/workingtimes/" + this.wtData.id,
           { start: start, end: end, user_id: this.userid },
           { header: "Access-Control-Allow-Origin: *" }
         )
         .then((response) => {
-          this.getWorkingTimes();
-          this.showModal = false;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    createWorkingTime: function (event) {
-      event.preventDefault();
-      let useridpicked = document.getElementById("useridpicker").value;
-      useridpicked == ""
-        ? (useridpicked = this.userid)
-        : (useridpicked = useridpicked);
-      let start = document.getElementById("newStart").value;
-      let end = document.getElementById("newEnd").value;
-      console.log(start);
-      axios
-        .post(
-          "http://localhost:4000/api/workingtimes/" + useridpicked,
-          { start: start, end: end },
-          { header: "Access-Control-Allow-Origin: *" }
-        )
-        .then((response) => {
-          this.getWorkingTimes();
           this.showModal = false;
         })
         .catch((error) => {
@@ -82,12 +52,10 @@ export default {
     deleteWorkingTime: function (event) {
       event.preventDefault();
       axios
-        .delete(
-          "http://localhost:4000/api/workingtimes/" + this.workingtime.id,
-          { header: "Access-Control-Allow-Origin: *" }
-        )
+        .delete("http://localhost:4000/api/workingtimes/" + this.wtData.id, {
+          header: "Access-Control-Allow-Origin: *",
+        })
         .then((response) => {
-          this.getWorkingTimes();
           this.showDelete = false;
         })
         .catch((error) => {
@@ -99,9 +67,6 @@ export default {
       this.showDelete = true;
       this.workingtime = wt;
     },
-  },
-  mounted() {
-    this.getWorkingTimes();
   },
   data() {
     return {
@@ -118,26 +83,27 @@ export default {
 </script>
 
 <template>
-  <FancyCard>
-    <template #header>Working Time</template>
+  <FancyCard :stripe="false">
+    <template #header>
+      <div style="text-align: center; padding-top: 16px; font-weight: 700">
+        {{ moment(wtData.start).format("MMM Do YYYY, hh:mm") }} -
+        {{ moment(wtData.end).format("MMM Do YYYY, hh:mm") }}
+      </div></template
+    >
     <template #mainpart>
-      <input
-        type="number"
-        v-model="workingtimeid"
-        @change="this.getWorkingTimes($event.target.value)"
-        id="useridpicker"
-      />
-      <span @click="this.getWorkingTimes()" style="cursor: pointer"
-        >&#x21bb;</span
+      <div
+        style="
+          display: flex;
+          justify-content: space-around;
+          width: 50%;
+          padding-left: 25%;
+        "
       >
-      <FancyButton color="gray" @click="this.showCreate = true">+</FancyButton>
-      <li v-for="workingtime in workingtimes" :key="workingtime.id">
-        {{ workingtime.start }} - {{ workingtime.end }}
         <FancyButton @click="show(workingtime)"> Edit </FancyButton>
         <FancyButton color="red" @click="this.showDeleteModal(workingtime)">
           Delete
         </FancyButton>
-      </li>
+      </div>
     </template>
   </FancyCard>
 
@@ -178,7 +144,7 @@ export default {
     content-class="modal-content"
   >
     <FancyCard>
-      <template #header> Are you sure to delete ? </template>
+      <template #header> Are you sure you want to delete this? </template>
       <template #mainpart>
         <div
           style="
@@ -202,18 +168,6 @@ export default {
     classes="modal-container"
     content-class="modal-content"
   >
-    <FancyCard>
-      <template #header> Create new Working time </template>
-      <template #mainpart>
-        <form>
-          <label>Start: </label>
-          <input id="newStart" type="datetime-local" /><br />
-          <label>End: </label>
-          <input id="newEnd" type="datetime-local" /><br />
-          <FancyButton @click="createWorkingTime($event)">Create</FancyButton>
-        </form>
-      </template>
-    </FancyCard>
   </vue-final-modal>
 </template>
 

@@ -23,12 +23,10 @@ export default {
 
 <style>
 .card {
-  margin: 7%;
   background: var(--color-background-soft);
   border-radius: 8px;
   box-shadow: 4px 4px 6px #11111166;
   padding-bottom: 8px;
-  max-width: 80vw;
   margin: 0px 0px 16px 0px;
 }
 
@@ -56,10 +54,6 @@ export default {
 
 .card button {
   margin-top: 5%;
-  padding: 10px;
-  background-color: #2c3e50;
-  border-radius: 5px;
-  border-color: transparent;
 }
 
 .card .content .center {
