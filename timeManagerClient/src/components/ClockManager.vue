@@ -64,7 +64,7 @@ export default {
 </script>
 
 <template>
-  <FancyCard>
+  <FancyCard v-if='this.userid != ""'>
     <template #header>Clock Manager</template>
     <template #mainpart>
       <div>

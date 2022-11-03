@@ -225,7 +225,7 @@ export default {
 </script>
 
 <template>
-  <FancyCard>
+  <FancyCard  v-if='this.userid != ""'>
     <template #header>Metrics</template>
     <template #mainpart>
       <div style="display: flex; justify-content: space-around">

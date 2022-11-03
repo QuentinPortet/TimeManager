@@ -42,7 +42,7 @@ export default {
 </script>
 
 <template>
-    <FancyCard>
+    <FancyCard  v-if='this.userid != ""'>
         <template #header>Working Times</template>
         <template #mainpart>
             <li v-for="workingtime in workingTimes" :key="workingtime.id" class="wt">

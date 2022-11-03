@@ -4,6 +4,10 @@ defineProps({
     type: String,
     required: true,
   },
+  isuseradmin: {
+    type: Boolean,
+    required: true,
+  },
 });
 </script>
 
@@ -30,6 +34,7 @@ export default {
     };
   },
   mounted() {
+
     this.getUser();
     this.getAllUsers();
     this.userList.reverse();
@@ -89,31 +94,34 @@ export default {
 };
 </script>
 
-<template>
-  <div class="title">Users panel</div>
-  <div class="content" style="margin: 16px">
-    You are currently logged in as <strong>{{ username }} </strong>.
-    <br />
-    Your registered email address is <strong>{{ email }} </strong>.
+<template >
+  <div v-if='this.userid != ""'>
+
+  <div class="title">User panel</div>
+
+  <div>
+    <div class="content" style="margin: 16px">
+      You are currently logged in as <strong>{{ username }} </strong>.
+      <br />
+      Your registered email address is <strong>{{ email }} </strong>.
+    </div>
+    <div style="display: flex; justify-content: space-around; margin: 16px">
+      <FancyButton @click="showEdit = true"> Edit profile </FancyButton>
+
+    </div>
   </div>
-  <div style="display: flex; justify-content: space-around; margin: 16px">
-    <FancyButton @click="showEdit = true"> Edit profile </FancyButton>
+  <div v-if='this.userid != "" && this.isuseradmin' id="admin_user_button"
+    style="display: flex; justify-content: space-around; margin: 16px">
+    <FancyButton @click="showCreate = true"
+      color="linear-gradient(323deg, rgba(0,170,119,1) 0%, rgba(0,156,154,1) 100%);">
+      Add new user
+    </FancyButton>
     <FancyButton color="danger" @click="showDelete = true">
       Delete profile
     </FancyButton>
   </div>
-  <div style="display: flex; justify-content: space-around; margin: 16px">
-    <FancyButton
-      @click="showCreate = true"
-      color="linear-gradient(323deg, rgba(0,170,119,1) 0%, rgba(0,156,154,1) 100%);"
-    >
-      Add new user
-    </FancyButton>
-  </div>
-  <div
-    class="hidden-scrollbar"
-    style="padding: 16px; max-height: 24vh; overflow: scroll"
-  >
+
+  <div v-if='this.userid != "" && this.isuseradmin' class="hidden-scrollbar" style="padding: 16px; max-height: 24vh; overflow: scroll">
     <div v-for="user of userList" v-bind:key="user.id">
       <FancyCard :stripe="false">
         <template #header>{{ user.username }}</template>
@@ -127,12 +135,7 @@ export default {
       </FancyCard>
     </div>
   </div>
-  <vue-final-modal
-    v-model="showCreate"
-    classes="modal-container"
-    content-class="modal-content"
-    style="z-index: 2"
-  >
+  <vue-final-modal v-model="showCreate" classes="modal-container" content-class="modal-content" style="z-index: 2">
     <FancyCard>
       <template #header>Create new User</template>
       <template #mainpart>
@@ -147,51 +150,37 @@ export default {
     </FancyCard>
   </vue-final-modal>
 
-  <vue-final-modal
-    v-model="showDelete"
-    classes="modal-container"
-    content-class="modal-content"
-  >
+  <vue-final-modal v-model="showDelete" classes="modal-container" content-class="modal-content">
     <FancyCard>
       <template #header>Delete your account?</template>
       <template #mainpart>
-        <form
-          style="
+        <form style="
             margin-left: 25%;
             width: 50%;
             display: flex;
             justify-content: space-around;
-          "
-        >
-          <FancyButton color="danger" @click="deleteUser($event)"
-            >Yes</FancyButton
-          >
-          <FancyButton color="default" @click="showDelete = false"
-            >No</FancyButton
-          >
+          ">
+          <FancyButton color="danger" @click="deleteUser($event)">Yes</FancyButton>
+          <FancyButton color="default" @click="showDelete = false">No</FancyButton>
         </form>
       </template>
     </FancyCard>
   </vue-final-modal>
 
-  <vue-final-modal
-    v-model="showEdit"
-    classes="modal-container"
-    content-class="modal-content"
-  >
+  <vue-final-modal v-model="showEdit" classes="modal-container" content-class="modal-content">
     <FancyCard>
       <template #header>Edit your account information</template>
       <template #mainpart>
         <form>
           <input id="editUsername" type="text" v-model="username" /><br />
           <input id="editEmail" type="email" v-model="email" /><br />
-          <FancyButton color="green" @click="updateUser($event)"
-            >Edit</FancyButton
-          >
+          <FancyButton color="green" @click="updateUser($event)">Edit</FancyButton>
         </form>
       </template>
     </FancyCard>
   </vue-final-modal>
+</div>
+
 </template>
 
 <style>

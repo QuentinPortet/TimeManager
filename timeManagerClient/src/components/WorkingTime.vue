@@ -118,7 +118,7 @@ export default {
 </script>
 
 <template>
-  <FancyCard>
+  <FancyCard  v-if='this.userid != ""' >
     <template #header>Working Time</template>
     <template #mainpart>
       <input
